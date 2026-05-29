@@ -327,12 +327,12 @@ const projects = [
   },
   {
     id: 2,
-    title: "Management Dashboard",
-    category: "Backend",
-    desc: "Internal tool with analytics and user roles.",
-    image: "/Image7.png",
-    tags: ["React", "Spring Boot", "MySQL"],
-    demo: "#"
+    title: "Parent Malagasy",
+    category: "Full Stack",
+    desc: "Application de suivi parental pour enfants 0-12 ans : croissance, vaccins, budget, conseils personnalisés.",
+    image: "/parentmalagasy.jpg",
+    tags: ["Vue.js", "Tailwind CSS", "Chart.js", "Framer Motion"],
+    demo: "https://parentmalagasy.netlify.app",
   },
   {
     id: 3,
@@ -1588,7 +1588,7 @@ export default function Home() {
                   onClick={() => setFilter(cat)}
                   className={`px-4 py-2 text-sm uppercase tracking-wider transition-all duration-300
                     ${filter === cat 
-                      ? "text-[#21D375] font-medium border-b-2 border-[#21D375]" 
+                      ? "text-[#21D375] font-medium border-b-2 border-[#21D375]"
                       : "text-gray-500 hover:text-[#21D375]"
                     }`}
                 >
