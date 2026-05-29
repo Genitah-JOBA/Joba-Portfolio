@@ -120,7 +120,7 @@ const skillCategories = [
   },
   {
     title: "Backend",
-    icon: <Terminal2 className="text-[#21D375]" />,
+    icon: <IconTerminal2 className="text-[#21D375]" />,
     skills: [
       { name: "Node.js", level: 50, icon: <IconBrandNodejs size={18} /> },
       { name: "Laravel", level: 75, icon: <IconBrandLaravel size={18} /> },
@@ -131,16 +131,16 @@ const skillCategories = [
   },
   {
     title: "Databases",
-    icon: <Database className="text-[#21D375]" />,
+    icon: <IconDatabase className="text-[#21D375]" />,
     skills: [
       { name: "MySQL", level: 90, icon: <IconBrandMysql size={18} /> },
-      { name: "PostgreSQL", level: 40, icon: <Database size={18} /> },
+      { name: "PostgreSQL", level: 40, icon: <IconDatabase size={18} /> },
       { name: "Supabase", level: 40, icon: <IconBrandSupabase size={18} /> },
     ],
   },
   {
     title: "DevOps & Tools",
-    icon: <Code className="text-[#21D375]" />,
+    icon: <IconCode className="text-[#21D375]" />,
     skills: [
       { name: "GitHub", level: 85, icon: <IconBrandGithub size={18} /> },
       { name: "Git", level: 80, icon: <IconBrandGit size={18} /> },
