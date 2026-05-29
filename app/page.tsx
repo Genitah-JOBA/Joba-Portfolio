@@ -53,24 +53,24 @@ interface Project {
   demo: string;
 }
 
-// ========== DÉFINITIONS DES TYPES - À METTRE EN TOUT PREMIER ==========
+// ========== TYPE DEFINITIONS - TO BE PLACED VERY FIRST ==========
 type MessageType = 'success' | 'error' | 'info' | 'warning' | '';
 
 interface MessageBoxState {
   show: boolean;
-  type: MessageType;  // Accepte '' comme valeur
+  type: MessageType;  // Accepts '' as value
   message: string;
 }
 
 interface MessageBoxProps {
   message: string;
-  type: MessageType;  // Doit correspondre exactement
+  type: MessageType;  // Must match exactly
   onClose: () => void;
   dark?: boolean;
   duration?: number;
 }
 
-// ================= COMPOSANT MESSAGE BOX =================
+// ================= MESSAGE BOX COMPONENT =================
 const MessageBox = ({ 
   message, 
   type, 
@@ -86,7 +86,7 @@ const MessageBox = ({
     return () => clearTimeout(timer);
   }, [onClose, duration]);
 
-  // Couleurs en fonction du type
+  // Colors based on type
   const getBgColor = () => {
     switch(type) {
       case 'success': return 'bg-green-500';
@@ -113,7 +113,7 @@ const MessageBox = ({
         }`}
     >
       <div className="flex items-start gap-3">
-        {/* Icône */}
+        {/* Icon */}
         <motion.div
           animate={{ 
             scale: [1, 1.2, 1],
@@ -144,7 +144,7 @@ const MessageBox = ({
               ? dark ? 'text-[#21D375]' : 'text-[#A2CA6C]'
               : 'text-red-500'
           }`}>
-            {type === 'success' ? 'Succès !' : 'Erreur !'}
+            {type === 'success' ? 'Success!' : 'Error!'}
           </h3>
           <p className={`text-sm ${
             dark ? 'text-white/80' : 'text-slate-700'
@@ -153,7 +153,7 @@ const MessageBox = ({
           </p>
         </div>
 
-        {/* Bouton fermer */}
+        {/* Close button */}
         <motion.button
           onClick={onClose}
           whileHover={{ scale: 1.1 }}
@@ -168,7 +168,7 @@ const MessageBox = ({
         </motion.button>
       </div>
 
-      {/* Barre de progression */}
+      {/* Progress bar */}
       <motion.div
         className={`absolute bottom-0 left-0 h-1 rounded-b-xl
           ${type === 'success'
@@ -183,7 +183,7 @@ const MessageBox = ({
   );
 };
 
-// ================= COMPOSANT POUR LES PARTICULES =================
+// ================= COMPONENT FOR PARTICLES =================
 const Particles = () => {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -191,10 +191,10 @@ const Particles = () => {
     setIsMounted(true);
   }, []);
 
-  // Ne rien rendre côté serveur
+  // Don't render anything server-side
   if (!isMounted) return null;
 
-  // Ne rendre que côté client
+  // Only render client-side
   return (
     <>
       {[...Array(20)].map((_, i) => (
@@ -223,7 +223,7 @@ const Particles = () => {
   );
 };
 
-// ================= COMPOSANT POUR LES PARTICULES FIXES (SECTION ABOUT) =================
+// ================= COMPONENT FOR FIXED PARTICLES (ABOUT SECTION) =================
 const FixedParticles = () => {
   return (
     <div className="absolute inset-0">
@@ -258,7 +258,7 @@ const FixedParticles = () => {
   );
 };
 
-// ================= DONNÉES =================
+// ================= DATA =================
 const skillCategories = [
   {
     title: "Frontend",
@@ -328,8 +328,8 @@ const projects = [
   {
     id: 2,
     title: "Parent Malagasy",
-    category: "Full Stack",
-    desc: "Application de suivi parental pour enfants 0-12 ans : croissance, vaccins, budget, conseils personnalisés.",
+    category: "Fullstack",
+    desc: "Parental monitoring application for children 0-12 years: growth, vaccines, budget, personalized advice.",
     image: "/parentmalagasy.jpg",
     tags: ["Vue.js", "Tailwind CSS", "Chart.js", "Framer Motion"],
     demo: "https://parentmalagasy.netlify.app",
@@ -345,7 +345,7 @@ const projects = [
   }
 ];
 
-// ================= COMPOSANT PRINCIPAL =================
+// ================= MAIN COMPONENT =================
 export default function Home() {
   const [dark, setDark] = useState(true); 
   const [filter, setFilter] = useState("All");
@@ -355,7 +355,7 @@ export default function Home() {
   
   const [messageBox, setMessageBox] = useState<MessageBoxState>({ 
     show: false, 
-    type: '',  // Maintenant '' est valide
+    type: '',  // Now '' is valid
     message: '' 
   });
 
@@ -384,21 +384,21 @@ export default function Home() {
         setMessageBox({
           show: true,
           type: 'success',
-          message: 'Message envoyé avec succès !'
+          message: 'Message sent successfully!'
         });
         formRef.current.reset();
       } else {
         setMessageBox({
           show: true,
           type: 'error',
-          message: 'Erreur lors de l\'envoi. Veuillez réessayer.'
+          message: 'Error sending message. Please try again.'
         });
       }
     } catch (error) {
       setMessageBox({
         show: true,
         type: 'error',
-        message: 'Erreur lors de l\'envoi. Veuillez réessayer.'
+        message: 'Error sending message. Please try again.'
       });
     } finally {
       setLoading(false);
@@ -425,7 +425,7 @@ export default function Home() {
             dark={dark}
             onClose={() => setMessageBox({ 
               show: false, 
-              type: '',  // Maintenant '' est valide
+              type: '',  // Now '' is valid
               message: '' 
             })}
           />
@@ -433,14 +433,14 @@ export default function Home() {
       </AnimatePresence>
 
       <div className="flex-grow">
-        {/* SECTION ACCEUIL */}
+        {/* HOME SECTION */}
         <section
           id="Acceuil"
           className="py-12 md:py-20 flex items-center justify-center px-6 relative overflow-hidden"
         >
-          {/* ANIMATIONS DE FOND PERMANENTES */}
+          {/* PERMANENT BACKGROUND ANIMATIONS */}
           
-          {/* Grille animée */}
+          {/* Animated grid */}
           <motion.div 
             className="absolute inset-0 pointer-events-none"
             style={{
@@ -458,7 +458,7 @@ export default function Home() {
             }}
           />
 
-          {/* Cercles lumineux flottants */}
+          {/* Floating luminous circles */}
           <motion.div
             className="absolute top-20 left-10 w-64 h-64 bg-[#21D375]/5 rounded-full blur-3xl"
             animate={{
@@ -479,12 +479,12 @@ export default function Home() {
             transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
           />
 
-          {/* PARTICULES - RENDU UNIQUEMENT CÔTÉ CLIENT */}
+          {/* PARTICLES - RENDER ONLY CLIENT-SIDE */}
           <Particles />
 
           <div className="max-w-7xl mx-auto flex flex-col-reverse md:grid md:grid-cols-2 gap-10 items-center relative z-10">
             
-            {/* TEXTE AVEC ANIMATIONS */}
+            {/* TEXT WITH ANIMATIONS */}
             <motion.div
               initial={{ opacity: 0, x: -100 }}
               animate={{ opacity: 1, x: 0 }}
@@ -496,7 +496,7 @@ export default function Home() {
               }}
               className="text-center md:text-left relative"
             >
-              {/* Badge flottant "NEW" */}
+              {/* Floating "NEW" badge */}
               <motion.div
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -513,7 +513,7 @@ export default function Home() {
                 Available for work
               </motion.div>
 
-              {/* Titre principal avec animation de lettres */}
+              {/* Main title with letter animation */}
               <div className="overflow-hidden">
                 <motion.h1 
                   initial={{ y: 100 }}
@@ -537,7 +537,7 @@ export default function Home() {
                 </motion.h1>
               </div>
 
-              {/* Sous-titre avec effet de machine à écrire */}
+              {/* Subtitle with typewriter effect */}
               <motion.h2 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -565,7 +565,7 @@ export default function Home() {
                 </motion.span>
               </motion.h2>
 
-              {/* Description avec animation de fade */}
+              {/* Description with fade animation */}
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -596,7 +596,7 @@ export default function Home() {
                 </motion.span>
               </motion.p>
 
-              {/* Boutons avec animations - STYLE D'ORIGINE CORRIGÉ */}
+              {/* Buttons with animations - CORRECTED ORIGINAL STYLE */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -631,7 +631,7 @@ export default function Home() {
 
                 <motion.a
                   href="/cv.pdf"
-                  download="Mon_CV.pdf"
+                  download="My_CV.pdf"
                   className="text-[#244539] flex items-center gap-2 border border-[#21D375] dark:text-[#21D375] px-6 py-3 rounded-lg hover:bg-[#244539] hover:text-white transition group relative overflow-hidden"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -654,7 +654,7 @@ export default function Home() {
                 </motion.a>
               </motion.div>
 
-              {/* Indicateur de scroll */}
+              {/* Scroll indicator */}
               <motion.div
                 className="absolute -bottom-16 left-1/2 transform -translate-x-1/2 hidden md:block"
                 animate={{ y: [0, 10, 0] }}
@@ -670,7 +670,7 @@ export default function Home() {
               </motion.div>
             </motion.div>
 
-            {/* IMAGE AVEC ANIMATIONS */}
+            {/* IMAGE WITH ANIMATIONS */}
             <motion.div
               initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -683,7 +683,7 @@ export default function Home() {
               className="flex justify-center relative"
             >
               <div className="relative w-60 h-60 md:w-80 md:h-80">
-                {/* Cercles orbitaux */}
+                {/* Orbital circles */}
                 <motion.div
                   className="absolute -inset-4 rounded-full border-2 border-[#21D375]/30 border-dashed"
                   animate={{ rotate: 360 }}
@@ -696,7 +696,7 @@ export default function Home() {
                   transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
                 />
 
-                {/* Image principale */}
+                {/* Main image */}
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: "spring", stiffness: 300 }}
@@ -704,13 +704,13 @@ export default function Home() {
                 >
                   <Image
                     src="/Images.jpg"
-                    alt="Photo JOBA"
+                    alt="JOBA Photo"
                     loading="eager"
                     fill
                     className="object-cover rounded-full shadow-2xl border-4 border-[#21D375] relative z-10"
                   />
                   
-                  {/* Overlay d'effet de brillance */}
+                  {/* Shine effect overlay */}
                   <motion.div
                     className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent"
                     animate={{
@@ -725,7 +725,7 @@ export default function Home() {
                   />
                 </motion.div>
 
-                {/* Badge développeur animé */}
+                {/* Animated developer badge */}
                 <motion.div
                   animate={{ 
                     x: [0, 8, -8, 0],
@@ -788,14 +788,14 @@ export default function Home() {
           </div>
         </div>
 
-        {/* SECTION ABOUT - DESIGN MINIMALISTE & CINÉMATIQUE */}
+        {/* ABOUT SECTION - MINIMALIST & CINEMATIC DESIGN */}
         <section id="about" className="py-20 px-6 overflow-hidden relative">
-          {/* Nouveau fond : vagues organiques subtiles */}
+          {/* New background: subtle organic waves */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {/* Dégradé de fond dynamique */}
+            {/* Dynamic background gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-[#A2CA6C]/5 via-transparent to-[#244539]/5" />
             
-            {/* Vagues animées style "glassmorphism" */}
+            {/* Animated "glassmorphism" style waves */}
             <svg className="absolute bottom-0 left-0 w-full h-full opacity-20" preserveAspectRatio="none" viewBox="0 0 1440 800">
               <defs>
                 <linearGradient id="waveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -822,7 +822,7 @@ export default function Home() {
               />
             </svg>
 
-            {/* Effet de particules flottantes style "space" */}
+            {/* Floating "space" style particle effect */}
             {Array.from({ length: 30 }).map((_, i) => (
               <motion.div
                 key={i}
@@ -851,7 +851,7 @@ export default function Home() {
           </div>
 
           <div className="max-w-6xl mx-auto relative z-10">
-            {/* NOUVEAU TITRE : Style "ascii art" animé */}
+            {/* NEW TITLE: Animated "ascii art" style */}
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -865,7 +865,7 @@ export default function Home() {
                 className="inline-block"
               >
                 <div className="relative">
-                  {/* Badge décoratif */}
+                  {/* Decorative badge */}
                   <motion.div
                     className="absolute -top-6 -right-6 w-12 h-12 rounded-full bg-[#A2CA6C]/20 blur-xl"
                     animate={{
@@ -875,7 +875,7 @@ export default function Home() {
                     transition={{ duration: 3, repeat: Infinity }}
                   />
                   
-                  {/* Titre principal avec effet de découpage */}
+                  {/* Main title with cut-out effect */}
                   <h2 className="text-6xl md:text-8xl font-black tracking-tighter">
                     <span className="relative">
                       <span className="absolute inset-0 text-[#A2CA6C] blur-sm opacity-50">
@@ -889,7 +889,7 @@ export default function Home() {
                     <span className="text-gray-900 dark:text-white">Who Am I</span>
                   </h2>
                   
-                  {/* Ligne décorative asymétrique */}
+                  {/* Asymmetrical decorative line */}
                   <motion.div
                     className="absolute -bottom-4 left-1/4 w-32 h-0.5 bg-gradient-to-r from-[#A2CA6C] to-transparent"
                     initial={{ width: 0 }}
@@ -910,7 +910,7 @@ export default function Home() {
             </motion.div>
 
             <div className="grid lg:grid-cols-2 gap-16 items-start">
-              {/* NOUVEAU TEXTE : Style terminal */}
+              {/* NEW TEXT: Terminal style */}
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -918,9 +918,9 @@ export default function Home() {
                 transition={{ duration: 0.7, delay: 0.2 }}
                 className="relative"
               >
-                {/* Cadre style terminal */}
+                {/* Terminal style frame */}
                 <div className="relative bg-black/5 dark:bg-white/5 rounded-2xl p-6 backdrop-blur-sm border border-[#A2CA6C]/20">
-                  {/* Dots style terminal */}
+                  {/* Terminal style dots */}
                   <div className="flex gap-2 mb-4">
                     <div className="w-3 h-3 rounded-full bg-red-500/50" />
                     <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
@@ -967,7 +967,7 @@ export default function Home() {
                       </span>
                     </motion.p>
 
-                    {/* Curseur clignotant */}
+                    {/* Blinking cursor */}
                     <motion.span
                       className="inline-block w-2 h-4 bg-[#A2CA6C]"
                       animate={{ opacity: [1, 0, 1] }}
@@ -976,7 +976,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Badge de stats flottant */}
+                {/* Floating stats badge */}
                 <motion.div
                   className="absolute -bottom-4 -right-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-3 border border-[#A2CA6C]/30"
                   initial={{ opacity: 0, scale: 0 }}
@@ -998,7 +998,7 @@ export default function Home() {
                 </motion.div>
               </motion.div>
 
-              {/* NOUVEAUX BLOCS : Style cartes "glassmorphism" avec métriques */}
+              {/* NEW BLOCKS: "Glassmorphism" style cards with metrics */}
               <motion.div 
                 className="space-y-6"
                 initial={{ opacity: 0, x: 50 }}
@@ -1006,7 +1006,7 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: 0.3 }}
               >
-                {/* Métrique 1 - XP */}
+                {/* Metric 1 - XP */}
                 <motion.div
                   whileHover={{ scale: 1.02, x: 5 }}
                   className="group relative bg-gradient-to-r from-white/10 to-transparent backdrop-blur-sm rounded-2xl p-6 border border-white/20 dark:border-white/10 overflow-hidden"
@@ -1024,7 +1024,7 @@ export default function Home() {
                   </div>
                 </motion.div>
 
-                {/* Métrique 2 - Impact */}
+                {/* Metric 2 - Impact */}
                 <motion.div
                   whileHover={{ scale: 1.02, x: 5 }}
                   className="group relative bg-gradient-to-r from-white/10 to-transparent backdrop-blur-sm rounded-2xl p-6 border border-white/20 dark:border-white/10"
@@ -1039,7 +1039,7 @@ export default function Home() {
                       <Award size={28} className="text-[#A2CA6C]" />
                     </div>
                   </div>
-                  {/* Barre de progression */}
+                  {/* Progress bar */}
                   <div className="mt-4 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                     <motion.div
                       className="h-full bg-gradient-to-r from-[#A2CA6C] to-[#244539]"
@@ -1050,7 +1050,7 @@ export default function Home() {
                   </div>
                 </motion.div>
 
-                {/* Métrique 3 - Speed */}
+                {/* Metric 3 - Speed */}
                 <motion.div
                   whileHover={{ scale: 1.02, x: 5 }}
                   className="group relative bg-gradient-to-r from-white/10 to-transparent backdrop-blur-sm rounded-2xl p-6 border border-white/20 dark:border-white/10"
@@ -1082,7 +1082,7 @@ export default function Home() {
               </motion.div>
             </div>
             
-            {/* NOUVEAU BOUTON : Style "explore" */}
+            {/* NEW BUTTON: "Explore" style */}
             <motion.div
               className="text-center mt-16"
               initial={{ opacity: 0, y: 20 }}
@@ -1096,7 +1096,7 @@ export default function Home() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                {/* Background animé */}
+                {/* Animated background */}
                 <div className="absolute inset-0 bg-gradient-to-r from-[#A2CA6C] to-[#244539] opacity-90 group-hover:opacity-100 transition-opacity" />
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0"
@@ -1127,9 +1127,9 @@ export default function Home() {
         </div>
 
         <section id="skills" className="py-20 px-6 overflow-hidden relative from-amber-50 via-white to-emerald-50">
-          {/* Éléments décoratifs Pinterest */}
+          {/* Pinterest decorative elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {/* Grands cercles flous */}
+            {/* Large blurry circles */}
             <motion.div
               className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-emerald-200/30 dark:bg-emerald-500/10 blur-3xl"
               animate={{
@@ -1158,7 +1158,7 @@ export default function Home() {
               }}
             />
             
-            {/* Lignes courbes */}
+            {/* Curved lines */}
             <svg className="absolute inset-0 w-full h-full opacity-20">
               <defs>
                 <linearGradient id="line-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -1186,12 +1186,12 @@ export default function Home() {
               ))}
             </svg>
 
-            {/* Petits points décoratifs */}
+            {/* Small decorative dots */}
             <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, #21D375 1px, transparent 1px)', backgroundSize: '40px 40px', opacity: 0.1 }} />
           </div>
 
           <div className="max-w-6xl mx-auto relative z-10">
-            {/* Titre style Pinterest */}
+            {/* Pinterest style title */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -1200,17 +1200,17 @@ export default function Home() {
               className="text-center mb-16"
             >
               <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400 tracking-wider mb-2 block">
-                • MES COMPÉTENCES •
+                • MY SKILLS •
               </span>
               <h2 className="text-5xl md:text-6xl font-bold text-gray-800 dark:text-white mb-4">
-                Créativité & 
+                Creativity & 
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-emerald-400"> Expertise</span>
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
                 A unique blend of design thinking and technical development for exceptional projects.
               </p>
               
-              {/* Barre de séparation décorative */}
+              {/* Decorative separation bar */}
               <motion.div
                 className="flex justify-center gap-2 mt-6"
                 initial={{ scale: 0 }}
@@ -1224,7 +1224,7 @@ export default function Home() {
               </motion.div>
             </motion.div>
 
-            {/* Grille de compétences style Pinterest */}
+            {/* Pinterest style skills grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {skillCategories.map((cat, idx) => (
                 <motion.div
@@ -1241,12 +1241,12 @@ export default function Home() {
                   className="group"
                 >
                   <div className="relative h-full bg-white dark:bg-[#244539] rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden">
-                    {/* Image de fond décorative */}
+                    {/* Decorative background image */}
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                       <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/10 to-transparent" />
                     </div>
 
-                    {/* En-tête avec icône */}
+                    {/* Header with icon */}
                     <div className="relative p-8 pb-6">
                       <div className="flex items-start justify-between mb-4">
                         <div className="p-4 bg-gradient-to-br from-emerald-50 to-emerald-100 dark:from-emerald-900/30 dark:to-emerald-800/30 rounded-2xl group-hover:scale-110 transition-transform duration-500">
@@ -1261,14 +1261,15 @@ export default function Home() {
                       </h3>
 
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {cat.title === "Frontend" && "Création d'interfaces modernes et réactives"}
-                        {cat.title === "Backend" && "Architecture robuste et scalable"}
-                        {cat.title === "Databases" && "Gestion efficace des données"}
-                        {cat.title === "DevOps & Tools" && "Déploiement et automatisation"}
+                        {cat.title === "Frontend" && "Creating modern and reactive interfaces"}
+                        {cat.title === "Backend" && "Robust and scalable architecture"}
+                        {cat.title === "Databases" && "Efficient data management"}
+                        {cat.title === "DevOps & Tools" && "Deployment and automation"}
+                        {cat.title === "IDEs & Editors" && "Productivity and efficiency"}
                       </p>
                     </div>
 
-                    {/* Liste des compétences */}
+                    {/* Skills list */}
                     <div className="relative p-8 pt-0 space-y-4">
                       {cat.skills.map((skill, sIdx) => (
                         <motion.div
@@ -1293,7 +1294,7 @@ export default function Home() {
                             </span>
                           </div>
 
-                          {/* Barre de progression stylisée */}
+                          {/* Styled progress bar */}
                           <div className="h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
                             <motion.div
                               initial={{ width: 0 }}
@@ -1306,7 +1307,7 @@ export default function Home() {
                               }}
                               className="h-full bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full relative"
                             >
-                              {/* Effet de brillance */}
+                              {/* Shine effect */}
                               <motion.div
                                 className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
                                 animate={{
@@ -1324,7 +1325,7 @@ export default function Home() {
                       ))}
                     </div>
 
-                    {/* Footer de la carte */}
+                    {/* Card footer */}
                     <div className="relative p-8 pt-4 border-t border-gray-100 dark:border-gray-700">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
@@ -1337,11 +1338,11 @@ export default function Home() {
                             ))}
                           </div>
                           <span className="text-xs text-gray-500 dark:text-gray-400">
-                            {cat.skills.length} compétences
+                            {cat.skills.length} skills
                           </span>
                         </div>
                         
-                        {/* Indicateur de maîtrise */}
+                        {/* Mastery indicator */}
                         <div className="flex items-center gap-1">
                           {[...Array(3)].map((_, i) => (
                             <motion.div
@@ -1361,7 +1362,7 @@ export default function Home() {
                       </div>
                     </div>
 
-                    {/* Effet de bordure au hover */}
+                    {/* Border effect on hover */}
                     <motion.div
                       className="absolute inset-0 rounded-3xl border-2 border-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                       style={{ boxShadow: '0 0 30px rgba(33, 211, 117, 0.3)' }}
@@ -1406,9 +1407,9 @@ export default function Home() {
         </div>
 
         <section id="projects" className="py-20 px-6 overflow-hidden relative">
-          {/* Éléments d'arrière-plan - Géométrie verte */}
+          {/* Background elements - Green geometry */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {/* Triangles verts qui tournent */}
+            {/* Rotating green triangles */}
             <div className="absolute inset-0">
               {[...Array(8)].map((_, i) => (
                 <motion.div
@@ -1437,7 +1438,7 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Lignes verticales vertes */}
+            {/* Green vertical lines */}
             <div className="absolute inset-0">
               {[...Array(15)].map((_, i) => (
                 <motion.div
@@ -1461,7 +1462,7 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Cercles concentriques verts */}
+            {/* Green concentric circles */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
               {[...Array(5)].map((_, i) => (
                 <motion.div
@@ -1488,7 +1489,7 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Grille de points verts */}
+            {/* Green dot grid */}
             <div 
               className="absolute inset-0" 
               style={{ 
@@ -1500,7 +1501,7 @@ export default function Home() {
           </div>
 
           <div className="max-w-6xl mx-auto relative z-10">
-            {/* Titre avec effet de construction */}
+            {/* Title with construction effect */}
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -1508,7 +1509,7 @@ export default function Home() {
               className="text-center mb-16"
             >
               <div className="relative inline-block">
-                {/* Carrés décoratifs verts */}
+                {/* Green decorative squares */}
                 <motion.div
                   className="absolute -left-12 -top-12 w-8 h-8 border-2 border-[#21D375]/30"
                   variants={{
@@ -1549,7 +1550,7 @@ export default function Home() {
                   ))}
                 </h2>
                 
-                {/* Ligne horizontale verte */}
+                {/* Green horizontal line */}
                 <motion.div
                   className="absolute -bottom-4 left-0 w-full h-px bg-[#21D375]"
                   variants={{
@@ -1560,7 +1561,7 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Filtres - Style badges verts */}
+            {/* Filters - Green badge style */}
             <motion.div 
               className="flex justify-center gap-2 mb-16 flex-wrap"
               initial="hidden"
@@ -1597,11 +1598,11 @@ export default function Home() {
               ))}
             </motion.div>
 
-            {/* Grille de projets - Images droites */}
+            {/* Projects grid - Right images */}
             <motion.div 
               layout 
               className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-              key={filter} // Ajoutez cette ligne pour forcer le re-rendu quand filter change
+              key={filter} // Add this line to force re-render when filter changes
               variants={{
                 hidden: { opacity: 0 },
                 visible: {
@@ -1652,7 +1653,7 @@ export default function Home() {
                     className="group relative bg-white dark:bg-[#244539] rounded-2xl overflow-hidden cursor-pointer border border-gray-200 dark:border-gray-800 hover:border-[#21D375] transition-all duration-300 shadow-lg hover:shadow-xl"
                     onClick={() => setSelectedProject(project)}
                   >
-                    {/* Image droite */}
+                    {/* Right image */}
                     <div className="relative h-56 w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
                       <motion.div
                         whileHover={{ scale: 1.08 }}
@@ -1667,12 +1668,12 @@ export default function Home() {
                         />
                       </motion.div>
 
-                      {/* Overlay vert au hover */}
+                      {/* Green overlay on hover */}
                       <motion.div 
                         className="absolute inset-0 bg-[#21D375]/0 group-hover:bg-[#21D375]/10 transition-colors duration-300"
                       />
 
-                      {/* Badge catégorie vert */}
+                      {/* Green category badge */}
                       <motion.div
                         className="absolute top-4 left-4 px-3 py-1 bg-[#21D375] text-white text-xs font-medium rounded-full"
                         initial={{ x: -20, opacity: 0 }}
@@ -1683,7 +1684,7 @@ export default function Home() {
                       </motion.div>
                     </div>
 
-                    {/* Contenu */}
+                    {/* Content */}
                     <div className="p-6">
                       <div className="flex items-start justify-between mb-2">
                         <h3 className="text-xl font-semibold text-gray-900 dark:text-white group-hover:text-[#21D375] transition-colors">
@@ -1702,7 +1703,7 @@ export default function Home() {
                         {project.desc}
                       </p>
 
-                      {/* Tags verts */}
+                      {/* Green tags */}
                       <div className="flex flex-wrap gap-2">
                         {project.tags.map((tag, i) => (
                           <motion.span 
@@ -1718,7 +1719,7 @@ export default function Home() {
                       </div>
                     </div>
 
-                    {/* Bordure verte au hover */}
+                    {/* Green border on hover */}
                     <motion.div
                       className="absolute inset-0 rounded-2xl border-2 border-[#21D375] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
                     />
@@ -1734,11 +1735,11 @@ export default function Home() {
                 className="text-center py-20"
               >
                 <p className="text-gray-500 dark:text-gray-400 text-lg">
-                  Aucun projet trouvé dans la catégorie "{filter}"
+                  No projects found in the "{filter}" category
                 </p>
               </motion.div>
             )}
-            {/* Modal de projet - Style épuré vert */}
+            {/* Project modal - Clean green style */}
             <AnimatePresence>
               {selectedProject && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
@@ -1757,7 +1758,7 @@ export default function Home() {
                     transition={{ type: "spring", damping: 25, stiffness: 200 }}
                     className="relative bg-white dark:bg-gray-900 max-w-4xl w-full rounded-2xl overflow-hidden shadow-2xl z-[101] border border-[#21D375]/20"
                   >
-                    {/* Coins décoratifs verts */}
+                    {/* Green decorative corners */}
                     <div className="absolute top-0 left-0 w-16 h-px bg-[#21D375]" />
                     <div className="absolute top-0 left-0 w-px h-16 bg-[#21D375]" />
                     <div className="absolute top-0 right-0 w-16 h-px bg-[#21D375]" />
@@ -1775,7 +1776,7 @@ export default function Home() {
                     </button>
 
                     <div className="grid md:grid-cols-2">
-                      {/* Image droite */}
+                      {/* Right image */}
                       <div className="relative h-80 md:h-full bg-gray-100 dark:bg-gray-800">
                         <Image 
                           src={selectedProject.image} 
@@ -1785,14 +1786,14 @@ export default function Home() {
                         />
                       </div>
 
-                      {/* Contenu */}
+                      {/* Content */}
                       <div className="p-8">
                         <motion.div
                           initial={{ y: 20, opacity: 0 }}
                           animate={{ y: 0, opacity: 1 }}
                           transition={{ delay: 0.1 }}
                         >
-                          <span className="text-xs text-[#21D375] uppercase tracking-wider font-semibold">Projet</span>
+                          <span className="text-xs text-[#21D375] uppercase tracking-wider font-semibold">Project</span>
                           <h2 className="text-3xl font-bold mt-2 mb-4 text-gray-900 dark:text-white">
                             {selectedProject.title}
                           </h2>
@@ -1802,7 +1803,7 @@ export default function Home() {
                           </p>
 
                           <div className="mb-6">
-                            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Technologies utilisées</h3>
+                            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Technologies used</h3>
                             <div className="flex flex-wrap gap-2">
                               {selectedProject.tags.map((tag) => (
                                 <span
@@ -1835,7 +1836,7 @@ export default function Home() {
               )}
             </AnimatePresence>
 
-            {/* NOUVEAU BOUTON : Style "explore" */}
+            {/* NEW BUTTON: "Explore" style */}
             <motion.div
               className="text-center mt-16"
               initial={{ opacity: 0, y: 20 }}
@@ -1849,7 +1850,7 @@ export default function Home() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                {/* Background animé */}
+                {/* Animated background */}
                 <div className="absolute inset-0 bg-gradient-to-r from-[#A2CA6C] to-[#244539] opacity-90 group-hover:opacity-100 transition-opacity" />
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0"
@@ -1879,7 +1880,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* CONTACT SECTION - DESIGN SPECTACULAIRE */}
+        {/* CONTACT SECTION - SPECTACULAR DESIGN */}
         <motion.section
           id="contact"
           initial={{ opacity: 0 }}
@@ -1894,9 +1895,9 @@ export default function Home() {
               : '0 20px 40px rgba(0,0,0,0.12)'
           }}
         >
-          {/* ========== ANIMATIONS DE FOND PERMANENTES ========== */}
+          {/* ========== PERMANENT BACKGROUND ANIMATIONS ========== */}
           
-          {/* Effet de vagues lumineuses */}
+          {/* Luminous wave effect */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20" preserveAspectRatio="none">
             <defs>
               <linearGradient id="contactWave" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -1928,7 +1929,7 @@ export default function Home() {
             />
           </svg>
 
-          {/* Cercles pulsants */}
+          {/* Pulsating circles */}
           {[...Array(3)].map((_, i) => (
             <motion.div
               key={i}
@@ -1954,7 +1955,7 @@ export default function Home() {
             />
           ))}
 
-          {/* Particules flottantes */}
+          {/* Floating particles */}
           {Array.from({ length: 40 }).map((_, i) => (
             <motion.div
               key={`particle-${i}`}
@@ -1982,7 +1983,7 @@ export default function Home() {
             />
           ))}
 
-          {/* Lignes lumineuses horizontales */}
+          {/* Horizontal luminous lines */}
           {[...Array(4)].map((_, i) => (
             <motion.div
               key={`line-${i}`}
@@ -2006,7 +2007,7 @@ export default function Home() {
           ))}
 
           <div className="relative z-10">
-            {/* TITRE AVEC ANIMATION SPECTACULAIRE */}
+            {/* TITLE WITH SPECTACULAR ANIMATION */}
             <motion.div
               initial={{ opacity: 0, y: -50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -2020,7 +2021,7 @@ export default function Home() {
               className="text-center mb-8"
             >
               <h2 className="text-3xl md:text-5xl font-bold mb-3 relative">
-                {["C", "o", "n", "t", "a", "c", "t", " ", " M", "e"].map((char, index) => (
+                {["C", "o", "n", "t", "a", "c", "t", " ", "M", "e"].map((char, index) => (
                   <motion.span
                     key={index}
                     initial={{ opacity: 0, y: -30, rotateX: -90 }}
@@ -2045,7 +2046,7 @@ export default function Home() {
                   </motion.span>
                 ))}
                 
-                {/* Anneau décoratif autour du titre */}
+                {/* Decorative ring around the title */}
                 <motion.span
                   className="absolute -inset-4 rounded-full border-2 border-[#A2CA6C]/30"
                   initial={{ scale: 0, opacity: 0 }}
@@ -2075,7 +2076,7 @@ export default function Home() {
                 Feel free to reach out if you want to work together or have a project in mind.
               </motion.p>
 
-              {/* Ligne décorative avec effet de vague */}
+              {/* Decorative line with wave effect */}
               <motion.div
                 className="relative h-0.5 bg-gradient-to-r from-transparent via-[#A2CA6C] to-transparent dark:via-[#21D375] mx-auto mt-4"
                 initial={{ width: 0 }}
@@ -2094,7 +2095,7 @@ export default function Home() {
               </motion.div>
             </motion.div>
 
-            {/* FORMULAIRE AVEC ANIMATIONS EN CASCADE */}
+            {/* FORM WITH CASCADE ANIMATIONS */}
             <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-5">
               <div className="grid md:grid-cols-2 gap-4">
                 {/* Name */}
@@ -2274,7 +2275,7 @@ export default function Home() {
                 />
               </motion.div>
 
-              {/* Bouton avec animation 3D */}
+              {/* Button with 3D animation */}
               <motion.div
                 initial={{ opacity: 0, scale: 0, rotate: -180 }}
                 whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -2312,7 +2313,7 @@ export default function Home() {
                     delay: 1.5,
                   }}
                 >
-                  {/* Effet de brillance */}
+                  {/* Shine effect */}
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
                     animate={{
@@ -2351,7 +2352,7 @@ export default function Home() {
               </motion.div>
             </form>
 
-            {/* Réseaux sociaux avec animation */}
+            {/* Social networks with animation */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -2411,7 +2412,7 @@ export default function Home() {
             </motion.div>
           </div>
 
-          {/* Coin décoratifs animés */}
+          {/* Animated decorative corners */}
           {[...Array(4)].map((_, i) => (
             <motion.div
               key={`corner-${i}`}
