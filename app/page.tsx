@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useMemo, useCallback } from "react";
-import React from "react";
+import { useState, useRef, useEffect, useMemo, lazy, Suspense } from "react";
 import Image from "next/image";
 import { Github, Linkedin, Mail } from "lucide-react";
 import { IconDownload } from '@tabler/icons-react';
@@ -27,7 +26,7 @@ import {
   FileCode2, Layout, 
 } from "lucide-react";
 
-// Types simplifiés
+// ================= TYPES =================
 type MessageType = 'success' | 'error';
 interface Project {
   id: number;
@@ -39,9 +38,7 @@ interface Project {
   demo: string;
 }
 
-// ================= COMPOSANTS OPTIMISÉS =================
-
-// Message box simplifié - sans animations lourdes
+// ================= MESSAGE BOX =================
 const MessageBox = ({ message, type, onClose, dark = false }: { message: string; type: MessageType; onClose: () => void; dark?: boolean }) => {
   useEffect(() => {
     const timer = setTimeout(onClose, 4000);
@@ -83,13 +80,13 @@ const MessageBox = ({ message, type, onClose, dark = false }: { message: string;
   );
 };
 
-// Version optimisée des particules - beaucoup moins
+// ================= PARTICULES ALLÉGÉES (garde l'ambiance mais moins lourd) =================
 const ParticlesOptimized = () => {
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => { setIsMounted(true); }, []);
   if (!isMounted) return null;
   
-  // Réduit de 20 à 8 particules
+  // Réduit de 20 à 8 particules seulement
   return (
     <>
       {[...Array(8)].map((_, i) => (
@@ -106,7 +103,7 @@ const ParticlesOptimized = () => {
   );
 };
 
-// Données
+// ================= DONNÉES =================
 const skillCategories = [
   {
     title: "Frontend",
@@ -123,7 +120,7 @@ const skillCategories = [
   },
   {
     title: "Backend",
-    icon: <FileCode2 className="text-[#21D375]" />,
+    icon: <Terminal2 className="text-[#21D375]" />,
     skills: [
       { name: "Node.js", level: 50, icon: <IconBrandNodejs size={18} /> },
       { name: "Laravel", level: 75, icon: <IconBrandLaravel size={18} /> },
@@ -166,31 +163,32 @@ const projects = [
     id: 1,
     title: "Aura Privée",
     category: "Fullstack",
-    desc: "Modern e-commerce platform for exclusive products.",
+    desc: "Aura Privé is a modern e-commerce platform dedicated to selling exclusive and elegant products.",
     image: "/Image3.jpg",
-    tags: ["React", "Node.js", "Tailwind", "PostgreSQL"],
+    tags: ["React", "Node.js", "Express.js", "Tailwind", "PostgreSQL"],
     demo: "https://auraprivefrontend.vercel.app/"
   },
   {
     id: 2,
     title: "Parent Malagasy",
     category: "Fullstack",
-    desc: "Parental monitoring app for children 0-12 years.",
+    desc: "Parental monitoring application for children 0-12 years: growth, vaccines, budget, personalized advice.",
     image: "/parentmalagasy.jpg",
-    tags: ["Vue.js", "Tailwind CSS", "Chart.js"],
+    tags: ["Vue.js", "Tailwind CSS", "Chart.js", "Framer Motion"],
     demo: "https://parentmalagasy.netlify.app",
   },
   {
     id: 3,
     title: "Modern Portfolio",
     category: "Frontend",
-    desc: "Modern portfolio with smooth animations.",
+    desc: "Pixel-perfect portfolio with Framer Motion.",
     image: "/Image2.jpg",
     tags: ["Next.js", "Tailwind", "Framer"],
     demo: "#"
   }
 ];
 
+// ================= COMPOSANT PRINCIPAL =================
 export default function Home() {
   const [dark] = useState(true);
   const [filter, setFilter] = useState("All");
@@ -240,23 +238,26 @@ export default function Home() {
         {messageBox.show && <MessageBox message={messageBox.message} type={messageBox.type} dark={dark} onClose={() => setMessageBox({ show: false, type: 'success', message: '' })} />}
       </AnimatePresence>
 
-      {/* SECTION ACCUEIL - SIMPLIFIÉE */}
+      {/* SECTION ACCUEIL */}
       <section className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
-        {/* Fond simplifié - plus de grille animée lourde */}
+        {/* Fond simplifié */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,_#21D37520_1px,_transparent_0)] bg-[length:50px_50px] opacity-30" />
         <ParticlesOptimized />
 
         <div className="max-w-7xl mx-auto flex flex-col-reverse md:grid md:grid-cols-2 gap-10 items-center relative z-10">
-          {/* Texte - animations réduites */}
+          
+          {/* TEXTE */}
           <div className="text-center md:text-left">
-            <div className="inline-block bg-[#21D375] text-white px-3 py-1 rounded-full text-xs mb-6">
-              ✦ Available for work
+            <div className="inline-block bg-[#21D375] text-black px-3 py-1 rounded-full text-xs mb-6">
+              <span className="inline-block animate-spin mr-1" style={{ animationDuration: '2s' }}>✦</span>
+              Available for work
             </div>
             
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Hello, I'm 
               <span className="text-[#21D375] block md:inline-block">
                 JOBA Razafindrasoa Genitah
+                <span className="absolute -bottom-2 left-0 w-full h-[2px] bg-[#21D375] hidden md:block" />
               </span>
             </h1>
 
@@ -264,8 +265,9 @@ export default function Home() {
               &lt; Junior Fullstack Developer /&gt;
             </h2>
 
-            <p className="text-gray-300 mb-6 max-w-lg">
-              I design and develop modern, high-performance web applications using React, Next.js, Node.js, Python, and Laravel.
+            <p className="text-gray-300 mb-6 max-w-md">
+              I design and develop modern, high-performance and secure web applications 
+              using technologies such as Next.js, React, Node.js, Python, PHP, Laravel, Java and C#.
             </p>
 
             <div className="flex flex-wrap gap-4 justify-center md:justify-start">
@@ -278,23 +280,40 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Image */}
+          {/* IMAGE AVEC DEVELOPPER BADGE - CONSERVÉ */}
           <div className="flex justify-center">
             <div className="relative w-60 h-60 md:w-80 md:h-80">
+              {/* Cercles orbitaux simplifiés */}
+              <div className="absolute -inset-4 rounded-full border-2 border-[#21D375]/30 border-dashed animate-spin" style={{ animationDuration: '20s' }} />
+              <div className="absolute -inset-8 rounded-full border border-[#21D375]/20 animate-spin" style={{ animationDuration: '30s', animationDirection: 'reverse' }} />
+
+              {/* Image principale */}
               <div className="relative w-full h-full rounded-full border-4 border-[#21D375] overflow-hidden">
                 <Image src="/Images.jpg" alt="JOBA" fill className="object-cover" priority />
+              </div>
+
+              {/* DEVELOPER BADGE - CONSERVÉ */}
+              <div className="absolute bottom-6 -right-8 md:bottom-10 md:-right-12 
+                            bg-[#21D375] text-black px-4 py-2 rounded-full 
+                            shadow-lg border-2 border-white 
+                            flex items-center gap-2 z-30
+                            animate-bounce" style={{ animationDuration: '3s' }}>
+                <span className="w-2 h-2 bg-black rounded-full animate-pulse" />
+                <span className="text-sm md:text-base font-bold tracking-widest whitespace-nowrap" style={{ fontFamily: 'Cooper' }}>
+                  &lt; DEVELOPER / &gt;
+                </span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Séparateur */}
-      <div className="flex justify-center my-8">
-        <div className="w-20 h-px bg-[#21D375]/40" />
+      {/* SEPARATEUR */}
+      <div className="flex justify-center my-8 px-6">
+        <div className="w-20 h-px bg-gradient-to-r from-transparent via-[#21D375]/40 to-transparent" />
       </div>
 
-      {/* SECTION ABOUT - SIMPLIFIÉE */}
+      {/* SECTION ABOUT - AVEC CURSEUR CLIGNOTANT CONSERVÉ */}
       <section id="about" className="py-20 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -305,34 +324,42 @@ export default function Home() {
           </div>
 
           <div className="grid lg:grid-cols-2 gap-16">
+            {/* Terminal style - AVEC CURSEUR CLIGNOTANT */}
             <div className="bg-white/5 rounded-2xl p-6">
               <div className="flex gap-2 mb-4">
                 <div className="w-3 h-3 rounded-full bg-red-500" />
                 <div className="w-3 h-3 rounded-full bg-yellow-500" />
                 <div className="w-3 h-3 rounded-full bg-green-500" />
               </div>
-              <div className="space-y-4 font-mono">
+              <div className="space-y-4 font-mono text-sm">
                 <p><span className="text-[#21D375]">$</span> whoami<br/><span className="text-gray-400">Fullstack Developer passionate about creating impactful digital experiences.</span></p>
-                <p><span className="text-[#21D375]">$</span> skills<br/><span className="text-gray-400">React, Next.js, Node.js, Python, PHP, Laravel, Java, C#</span></p>
+                <p><span className="text-[#21D375]">$</span> skills --tech-stack<br/><span className="text-gray-400">React, Next.js, Node.js, Python, PHP, Laravel, Java, C#</span></p>
+                <p><span className="text-[#21D375]">$</span> philosophy --principles<br/><span className="text-gray-400">Clean code, performance, user experience, scalability</span></p>
+                {/* CURSEUR CLIGNOTANT - CONSERVÉ */}
+                <span className="inline-block w-2 h-4 bg-[#21D375] animate-pulse" />
               </div>
             </div>
 
+            {/* Cartes métriques */}
             <div className="space-y-6">
               <div className="bg-white/5 rounded-2xl p-6">
                 <div className="flex justify-between">
-                  <div><p className="text-[#21D375] text-sm">Experience</p><h3 className="text-3xl font-bold">2 Years</h3></div>
+                  <div><p className="text-[#21D375] text-sm">Experience</p><h3 className="text-3xl font-bold">2 Years</h3><p className="text-gray-500 text-xs">Fullstack Development</p></div>
                   <Briefcase size={28} className="text-[#21D375]" />
                 </div>
               </div>
               <div className="bg-white/5 rounded-2xl p-6">
                 <div className="flex justify-between">
-                  <div><p className="text-[#21D375] text-sm">Impact</p><h3 className="text-3xl font-bold">70%</h3></div>
+                  <div><p className="text-[#21D375] text-sm">Impact</p><h3 className="text-3xl font-bold">70%</h3><p className="text-gray-500 text-xs">Client Satisfaction</p></div>
                   <Award size={28} className="text-[#21D375]" />
+                </div>
+                <div className="mt-4 h-1 bg-gray-700 rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-[#21D375] to-[#244539] w-[70%]" />
                 </div>
               </div>
               <div className="bg-white/5 rounded-2xl p-6">
                 <div className="flex justify-between">
-                  <div><p className="text-[#21D375] text-sm">Performance</p><h3 className="text-3xl font-bold">90+</h3></div>
+                  <div><p className="text-[#21D375] text-sm">Performance</p><h3 className="text-3xl font-bold">90+</h3><p className="text-gray-500 text-xs">Lighthouse Score</p></div>
                   <Gauge size={28} className="text-[#21D375]" />
                 </div>
               </div>
@@ -341,9 +368,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Séparateur */}
-      <div className="flex justify-center my-8">
-        <div className="w-20 h-px bg-[#21D375]/40" />
+      {/* SEPARATEUR */}
+      <div className="flex justify-center my-8 px-6">
+        <div className="w-20 h-px bg-gradient-to-r from-transparent via-[#21D375]/40 to-transparent" />
       </div>
 
       {/* SECTION SKILLS */}
@@ -363,8 +390,8 @@ export default function Home() {
                   {cat.skills.map((skill, sIdx) => (
                     <div key={sIdx}>
                       <div className="flex justify-between text-sm mb-1">
-                        <span className="flex items-center gap-2"><span className="text-[#21D375]">{skill.icon}</span>{skill.name}</span>
-                        <span>{skill.level}%</span>
+                        <span className="flex items-center gap-2">{skill.icon}{skill.name}</span>
+                        <span className="text-gray-400">{skill.level}%</span>
                       </div>
                       <div className="h-1.5 bg-gray-700 rounded-full overflow-hidden">
                         <div className="h-full bg-[#21D375] rounded-full" style={{ width: `${skill.level}%` }} />
@@ -378,9 +405,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Séparateur */}
-      <div className="flex justify-center my-8">
-        <div className="w-20 h-px bg-[#21D375]/40" />
+      {/* SEPARATEUR */}
+      <div className="flex justify-center my-8 px-6">
+        <div className="w-20 h-px bg-gradient-to-r from-transparent via-[#21D375]/40 to-transparent" />
       </div>
 
       {/* SECTION PROJECTS */}
@@ -411,7 +438,7 @@ export default function Home() {
                 onClick={() => setSelectedProject(project)}
                 className="group bg-white/5 rounded-2xl overflow-hidden cursor-pointer hover:bg-white/10 transition"
               >
-                <div className="relative h-48 w-full overflow-hidden">
+                <div className="relative h-48 w-full overflow-hidden bg-gray-800">
                   <Image src={project.image} alt={project.title} fill className="object-cover group-hover:scale-105 transition duration-500" />
                   <div className="absolute top-4 left-4 px-3 py-1 bg-[#21D375] text-black text-xs font-medium rounded-full">
                     {project.category}
@@ -432,7 +459,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Modal projet */}
+      {/* MODAL PROJET */}
       <AnimatePresence>
         {selectedProject && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
@@ -450,7 +477,7 @@ export default function Home() {
                   <h2 className="text-2xl font-bold mt-2 mb-4">{selectedProject.title}</h2>
                   <p className="text-gray-300 mb-6">{selectedProject.desc}</p>
                   <div className="mb-6">
-                    <h3 className="text-sm font-semibold mb-3">Technologies</h3>
+                    <h3 className="text-sm font-semibold mb-3">Technologies used</h3>
                     <div className="flex flex-wrap gap-2">
                       {selectedProject.tags.map((tag) => (
                         <span key={tag} className="px-3 py-1 bg-[#21D375]/20 text-[#21D375] text-sm rounded-full">{tag}</span>
@@ -467,17 +494,17 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* Séparateur */}
-      <div className="flex justify-center my-8">
-        <div className="w-20 h-px bg-[#21D375]/40" />
+      {/* SEPARATEUR */}
+      <div className="flex justify-center my-8 px-6">
+        <div className="w-20 h-px bg-gradient-to-r from-transparent via-[#21D375]/40 to-transparent" />
       </div>
 
-      {/* SECTION CONTACT - SIMPLIFIÉE */}
+      {/* SECTION CONTACT */}
       <section id="contact" className="py-20 px-6">
-        <div className="max-w-2xl mx-auto bg-[#1a2e28] rounded-2xl p-8">
+        <div className="max-w-2xl mx-auto bg-white/5 rounded-2xl p-8">
           <div className="text-center mb-8">
             <h2 className="text-3xl md:text-4xl font-bold">Contact Me</h2>
-            <p className="text-gray-400 mt-2">Feel free to reach out for collaborations or inquiries.</p>
+            <p className="text-gray-400 mt-2">Feel free to reach out if you want to work together or have a project in mind.</p>
           </div>
 
           <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
@@ -488,7 +515,7 @@ export default function Home() {
             <input type="text" name="subject" placeholder="Subject" required className="w-full px-5 py-3 bg-white/10 rounded-xl border border-white/20 focus:border-[#21D375] outline-none" />
             <textarea name="message" placeholder="Your Message" rows={4} required className="w-full px-5 py-3 bg-white/10 rounded-xl border border-white/20 focus:border-[#21D375] outline-none resize-none" />
             
-            <button type="submit" disabled={loading} className="w-full py-3 bg-[#21D375] text-[#244539] font-semibold rounded-xl hover:bg-[#1aa55e] transition">
+            <button type="submit" disabled={loading} className="w-full py-3 bg-[#21D375] text-[#244539] font-semibold rounded-xl hover:bg-[#1daa5e] transition">
               {loading ? "Sending..." : "Send Message →"}
             </button>
           </form>
