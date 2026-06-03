@@ -8,18 +8,59 @@ import {
   Globe, ArrowUpRight, ChevronRight
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const [particles, setParticles] = useState<Array<{
+    id: number;
+    width: string;
+    height: string;
+    left: string;
+    top: string;
+    duration: number;
+    delay: number;
+    xMove: number;
+    yMove: number;
+  }>>([]);
   
-  // Couleurs selon le mode
-  const lightColor = "#5D8D11";
-  const darkColor = "#21D375";
-  
+  // UNE SEULE COULEUR (identique au Header)
+  const accentColor = "#14B89C";
+  const bgColor = "#0A0F1A";
+  const textColor = "#FFFFFF";
+
+  // Générer les particules uniquement côté client
+  useEffect(() => {
+    const generatedParticles = Array.from({ length: 16 }).map((_, i) => ({
+      id: i,
+      width: `${Math.random() * 3 + 1}px`,
+      height: `${Math.random() * 3 + 1}px`,
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      duration: 4 + Math.random() * 5,
+      delay: Math.random() * 3,
+      xMove: (Math.random() - 0.5) * 60,
+      yMove: -20 - Math.random() * 40,
+    }));
+    setParticles(generatedParticles);
+  }, []);
+
+  // Smooth scroll helper (identique au Header)
+  const smoothScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault();
+    const targetElement = document.querySelector(targetId);
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
   return (
     <motion.footer 
-      initial={{ opacity: 0, y: 100 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 100, rotateX: 45 }}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
       transition={{ 
         duration: 0.8,
         type: "spring",
@@ -27,126 +68,88 @@ export default function Footer() {
         damping: 20
       }}
       viewport={{ once: true, amount: 0.3 }}
-      className="bg-lightBg dark:bg-darkBg text-gray-800 dark:text-gray-200 border-t border-gray-300 dark:border-gray-700 w-full relative overflow-hidden"
+      className="w-full relative overflow-hidden"
+      style={{ 
+        backgroundColor: bgColor,
+        color: textColor,
+        borderTop: `1px solid ${accentColor}30`,
+        transformStyle: 'preserve-3d',
+      }}
     >
-      {/* Animations de fond permanentes - avec couleurs adaptatives */}
-      <motion.div 
-        className="absolute inset-0 pointer-events-none"
-        animate={{ 
-          background: [
-            `radial-gradient(circle at 20% 30%, ${lightColor}10 0%, transparent 40%)`,
-            `radial-gradient(circle at 80% 70%, ${lightColor}10 0%, transparent 40%)`,
-            `radial-gradient(circle at 20% 30%, ${lightColor}10 0%, transparent 40%)`
-          ]
+      {/* Ligne lumineuse qui traverse (comme dans le Header) */}
+      <motion.div
+        className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#14B89C] to-transparent"
+        initial={{ x: "-100%", opacity: 0 }}
+        animate={{ x: "100%", opacity: 0.5 }}
+        transition={{ 
+          duration: 2,
+          repeat: Infinity,
+          repeatDelay: 3,
+          ease: "linear"
         }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        style={{ 
-          // Version dark mode avec la couleur sombre
-          '--dark-bg-start': `radial-gradient(circle at 20% 30%, ${darkColor}10 0%, transparent 40%)`,
-          '--dark-bg-middle': `radial-gradient(circle at 80% 70%, ${darkColor}10 0%, transparent 40%)`,
-          '--dark-bg-end': `radial-gradient(circle at 20% 30%, ${darkColor}10 0%, transparent 40%)`,
-        } as React.CSSProperties}
-        // Note: Pour gérer le dark mode proprement, on utilise une classe CSS séparée
       />
 
-      {/* Vagues animées - couleur adaptative */}
-      <svg className="absolute top-0 left-0 w-full h-8 opacity-20">
-        <motion.path
-          d="M0 10 Q 150 0, 300 10 T 600 10"
-          stroke={lightColor}
-          strokeWidth="1"
-          fill="none"
-          className="dark:stroke-[#21D375]"
-          animate={{ 
-            d: [
-              "M0 10 Q 150 0, 300 10 T 600 10",
-              "M0 15 Q 150 25, 300 15 T 600 15",
-              "M0 10 Q 150 0, 300 10 T 600 10"
-            ]
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </svg>
-
-      {/* Particules flottantes - couleurs adaptatives */}
-      {[...Array(8)].map((_, i) => (
+      {/* Particules flottantes (comme dans le Header) */}
+      {particles.length > 0 && particles.map((particle) => (
         <motion.div
-          key={i}
-          className="absolute w-1 h-1 rounded-full"
+          key={particle.id}
+          className="absolute rounded-full"
           style={{
-            left: `${5 + i * 12}%`,
-            top: `${10 + i * 8}%`,
-            backgroundColor: `${lightColor}30`, // Opacité 30%
+            width: particle.width,
+            height: particle.height,
+            backgroundColor: accentColor,
+            left: particle.left,
+            top: particle.top,
           }}
           animate={{
-            y: [0, -30, 0],
-            x: [0, i % 2 === 0 ? 15 : -15, 0],
-            opacity: [0.2, 0.6, 0.2],
-            scale: [1, 1.8, 1],
+            opacity: [0, 0.8, 0],
+            scale: [0, 1.5, 0],
+            y: [0, particle.yMove, 0],
+            x: [0, particle.xMove, 0],
           }}
           transition={{
-            duration: 4 + i,
+            duration: particle.duration,
             repeat: Infinity,
-            delay: i * 0.7,
+            delay: particle.delay,
             ease: "easeInOut"
           }}
         />
       ))}
 
-      <div className="max-w-7xl mx-auto px-6 py-8 relative">
+      <div className="max-w-7xl mx-auto px-6 py-12 relative z-10">
         {/* Section principale avec 4 colonnes */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           
           {/* Colonne 1 - Brand & Stats */}
           <motion.div 
-            initial={{ x: -50, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            initial={{ x: -50, opacity: 0, rotateY: -45 }}
+            whileInView={{ x: 0, opacity: 1, rotateY: 0 }}
+            transition={{ duration: 0.6, type: "spring", delay: 0.1 }}
             className="text-center md:text-left"
           >
             <motion.div
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, rotateX: 5 }}
               className="inline-block relative"
             >
-              <h2 
-                className="text-2xl font-bold relative z-10" 
-                style={{ fontFamily: 'Cooper' }}
-              >
-                <motion.span
-                  animate={{ 
-                    color: ['#6B7280', lightColor, '#6B7280'],
-                  }}
-                  transition={{ duration: 4, repeat: Infinity }}
-                  className="font-mono dark:color-animation-dark"
-                >
-                  {"{"}
-                </motion.span>
+              <h2 className="text-2xl font-bold relative z-10" style={{ fontFamily: 'Cooper' }}>
+                <span style={{ color: accentColor }}>{"{"}</span>
                 <motion.span
                   animate={{ 
                     textShadow: [
-                      `0 0 0px ${lightColor}`,
-                      `0 0 12px ${lightColor}`,
-                      `0 0 0px ${lightColor}`
+                      `0 0 0px ${accentColor}`,
+                      `0 0 15px ${accentColor}`,
+                      `0 0 0px ${accentColor}`
                     ]
                   }}
                   transition={{ duration: 2.5, repeat: Infinity }}
-                  className="dark:text-shadow-dark"
                 >
                   JOBA
                 </motion.span>
-                <motion.span
-                  animate={{ 
-                    color: ['#6B7280', lightColor, '#6B7280'],
-                  }}
-                  transition={{ duration: 4, repeat: Infinity, delay: 2 }}
-                  className="font-mono dark:color-animation-dark"
-                >
-                  {"}"}
-                </motion.span>
+                <span style={{ color: accentColor }}>{"}"}</span>
               </h2>
               <motion.div
                 className="absolute -inset-2 rounded-lg -z-10"
-                style={{ backgroundColor: `${lightColor}10` }}
+                style={{ backgroundColor: `${accentColor}15` }}
                 animate={{ 
                   scale: [1, 1.1, 1],
                   opacity: [0.3, 0.6, 0.3]
@@ -159,13 +162,14 @@ export default function Footer() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="text-sm text-gray-600 dark:text-gray-400 mt-3"
+              className="text-sm mt-3"
+              style={{ color: `${textColor}CC` }}
             >
               Fullstack Developer & Problem Solver
             </motion.p>
 
             {/* Statistiques animées */}
-            <div className="grid grid-cols-3 gap-2 mt-4">
+            <div className="grid grid-cols-3 gap-3 mt-5">
               {[
                 { icon: Code2, value: "2", label: "Years" },
                 { icon: Briefcase, value: "8+", label: "Projects" },
@@ -173,60 +177,57 @@ export default function Footer() {
               ].map((stat, index) => (
                 <motion.div
                   key={index}
-                  initial={{ scale: 0, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.3 + index * 0.1 }}
-                  className="text-center"
+                  initial={{ scale: 0, rotateX: -90 }}
+                  whileInView={{ scale: 1, rotateX: 0 }}
+                  transition={{ delay: 0.3 + index * 0.1, type: "spring" }}
+                  className="text-center p-2 rounded-lg"
+                  style={{ backgroundColor: `${accentColor}10` }}
                 >
                   <motion.div
-                    animate={{ 
-                      y: [0, -3, 0],
-                      color: [lightColor, '#3a5c0b', lightColor],
-                    }}
+                    animate={{ y: [0, -3, 0] }}
                     transition={{ duration: 3, delay: index * 0.5, repeat: Infinity }}
-                    className="dark:text-[#21D375] dark:color-animation-dark"
+                    style={{ color: accentColor }}
                   >
-                    <stat.icon size={16} className="mx-auto" />
+                    <stat.icon size={18} className="mx-auto" />
                   </motion.div>
                   <motion.div 
-                    className="text-sm font-bold"
+                    className="text-base font-bold mt-1"
                     animate={{ scale: [1, 1.1, 1] }}
                     transition={{ duration: 2, delay: index * 0.3, repeat: Infinity }}
                   >
                     {stat.value}
                   </motion.div>
-                  <div className="text-[8px] text-gray-500">{stat.label}</div>
+                  <div className="text-[9px]" style={{ color: `${textColor}60` }}>{stat.label}</div>
                 </motion.div>
               ))}
             </div>
 
             <motion.div 
-              className="flex items-center justify-center md:justify-start gap-2 mt-4 text-xs text-gray-500 dark:text-gray-500"
-              animate={{ 
-                x: [0, -2, 2, -2, 2, 0],
-              }}
+              className="flex items-center justify-center md:justify-start gap-3 mt-4 text-xs"
+              style={{ color: `${textColor}60` }}
+              animate={{ x: [0, -2, 2, -2, 2, 0] }}
               transition={{ duration: 5, repeat: Infinity }}
             >
-              <MapPin size={12} style={{ color: lightColor }} className="dark:text-[#21D375]" />
+              <MapPin size={12} style={{ color: accentColor }} />
               <span>Madagascar</span>
-              <Clock size={12} style={{ color: lightColor }} className="ml-2 dark:text-[#21D375]" />
+              <Clock size={12} style={{ color: accentColor }} />
               <span>UTC+3</span>
             </motion.div>
           </motion.div>
 
           {/* Colonne 2 - Navigation */}
           <motion.div 
-            initial={{ y: 30, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            initial={{ y: 50, opacity: 0, rotateX: 30 }}
+            whileInView={{ y: 0, opacity: 1, rotateX: 0 }}
+            transition={{ duration: 0.6, type: "spring", delay: 0.2 }}
             className="text-center md:text-left"
           >
-            <h3 className="text-sm font-semibold mb-4 flex items-center justify-center md:justify-start gap-2">
-              <Zap size={16} style={{ color: lightColor }} className="dark:text-[#21D375]" />
+            <h3 className="text-sm font-semibold mb-5 flex items-center justify-center md:justify-start gap-2">
+              <Zap size={16} style={{ color: accentColor }} />
               <span>Navigation</span>
             </h3>
             
-            <div className="space-y-2">
+            <div className="space-y-3">
               {[
                 { name: 'About', icon: User, href: '#about' },
                 { name: 'Skills', icon: Layers, href: '#skills' },
@@ -235,68 +236,67 @@ export default function Footer() {
               ].map((item, index) => (
                 <motion.div
                   key={item.name}
-                  initial={{ x: -20, opacity: 0 }}
+                  initial={{ x: -30, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
                   transition={{ delay: 0.4 + index * 0.1 }}
-                  whileHover={{ x: 5 }}
+                  whileHover={{ x: 8 }}
                 >
                   <Link 
                     href={item.href} 
-                    className="flex items-center gap-3 text-xs group"
+                    onClick={(e) => smoothScrollTo(e, item.href)}
+                    className="flex items-center gap-3 text-sm group"
+                    style={{ color: `${textColor}CC` }}
                   >
                     <motion.div
-                      animate={{ 
-                        rotate: [0, 15, -15, 0],
-                      }}
+                      animate={{ rotate: [0, 10, -10, 0] }}
                       transition={{ duration: 3, delay: index * 0.5, repeat: Infinity }}
+                      style={{ color: accentColor }}
                     >
-                      <item.icon 
-                        size={14} 
-                        className="text-gray-500 group-hover:text-[#21D375] transition-colors" 
-                        style={{ color: lightColor }}
-                      />
+                      <item.icon size={14} />
                     </motion.div>
-                    <span 
-                      className="group-hover:text-[#21D375] transition-colors" 
-                      style={{ color: lightColor }}
-                    >
+                    <span className="group-hover:tracking-wider transition-all duration-300">
                       {item.name}
                     </span>
-                    <ChevronRight size={12} className="opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-1" style={{ color: lightColor }} />
+                    <ChevronRight 
+                      size={12} 
+                      className="opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-1" 
+                      style={{ color: accentColor }} 
+                    />
                   </Link>
                 </motion.div>
               ))}
             </div>
 
-            <motion.div 
-              className="mt-4 p-2 rounded-lg"
-              style={{ backgroundColor: `${lightColor}10` }}
-              animate={{ 
-                boxShadow: [
-                  `0 0 0px ${lightColor}`,
-                  `0 0 15px ${lightColor}30`,
-                  `0 0 0px ${lightColor}`
-                ]
-              }}
-              transition={{ duration: 3, repeat: Infinity }}
+            {/* Badge disponible (comme dans le Header) */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.8, type: "spring" }}
+              className="mt-6 inline-block px-3 py-1 rounded-full text-[10px]"
+              style={{ backgroundColor: accentColor, color: bgColor }}
             >
-              <div className="flex items-center gap-2 text-[10px]">
-                <Shield size={12} style={{ color: lightColor }} className="dark:text-[#21D375]" />
-                <span>Available for freelance</span>
-                <ArrowUpRight size={10} style={{ color: lightColor }} className="dark:text-[#21D375]" />
-              </div>
+              <span className="flex items-center gap-1">
+                <motion.span
+                  animate={{ rotate: [0, 360] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                  className="inline-block"
+                >
+                  ✦
+                </motion.span>
+                Available for freelance
+              </span>
             </motion.div>
           </motion.div>
 
           {/* Colonne 3 - Expertise */}
           <motion.div 
-            initial={{ y: 30, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            initial={{ y: 50, opacity: 0, rotateX: -30 }}
+            whileInView={{ y: 0, opacity: 1, rotateX: 0 }}
+            transition={{ duration: 0.6, type: "spring", delay: 0.3 }}
             className="text-center md:text-left"
           >
-            <h3 className="text-sm font-semibold mb-4 flex items-center justify-center md:justify-start gap-2">
-              <Award size={16} style={{ color: lightColor }} className="dark:text-[#21D375]" />
+            <h3 className="text-sm font-semibold mb-5 flex items-center justify-center md:justify-start gap-2">
+              <Award size={16} style={{ color: accentColor }} />
               <span>Expertise</span>
             </h3>
 
@@ -306,56 +306,59 @@ export default function Footer() {
                 { tech: "Laravel", level: 75 },
                 { tech: "MySQL", level: 90 },
                 { tech: "GitHub", level: 85 },
-                { tech: "Vs Code", level: 90 }
+                { tech: "VS Code", level: 90 }
               ].map((skill, index) => (
                 <motion.div
                   key={skill.tech}
-                  initial={{ width: 0, opacity: 0 }}
-                  whileInView={{ width: "100%", opacity: 1 }}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
                   transition={{ delay: 0.5 + index * 0.1 }}
                 >
                   <div className="flex justify-between text-[10px] mb-1">
-                    <span>{skill.tech}</span>
-                    <span>{skill.level}%</span>
+                    <span style={{ color: `${textColor}CC` }}>{skill.tech}</span>
+                    <span style={{ color: accentColor }}>{skill.level}%</span>
                   </div>
-                  <div className="h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                  <div className="h-1 rounded-full overflow-hidden" style={{ backgroundColor: `${textColor}20` }}>
                     <motion.div
-                      className="h-full rounded-full"
-                      style={{ backgroundColor: lightColor }}
+                      className="h-full rounded-full relative"
+                      style={{ backgroundColor: accentColor }}
                       initial={{ width: 0 }}
                       whileInView={{ width: `${skill.level}%` }}
                       transition={{ duration: 1, delay: 0.6 + index * 0.1 }}
-                      animate={{ 
-                        opacity: [1, 0.7, 1],
-                      }}
-                    />
+                    >
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                        animate={{ x: ['-100%', '200%'] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      />
+                    </motion.div>
                   </div>
                 </motion.div>
               ))}
             </div>
 
             <motion.div 
-              className="mt-4 flex items-center justify-center md:justify-start gap-2"
-              animate={{ rotate: [0, 360] }}
+              className="mt-6 flex items-center justify-center md:justify-start"
+              animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
             >
-              <Globe size={14} style={{ color: lightColor }} className="dark:text-[#21D375]" />
+              <Globe size={18} style={{ color: accentColor }} />
             </motion.div>
           </motion.div>
 
           {/* Colonne 4 - Connect */}
           <motion.div 
-            initial={{ x: 50, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            initial={{ x: 50, opacity: 0, rotateY: 45 }}
+            whileInView={{ x: 0, opacity: 1, rotateY: 0 }}
+            transition={{ duration: 0.6, type: "spring", delay: 0.4 }}
             className="text-center md:text-right"
           >
-            <h3 className="text-sm font-semibold mb-4 flex items-center justify-center md:justify-end gap-2">
-              <Sparkles size={16} style={{ color: lightColor }} className="dark:text-[#21D375]" />
+            <h3 className="text-sm font-semibold mb-5 flex items-center justify-center md:justify-end gap-2">
+              <Sparkles size={16} style={{ color: accentColor }} />
               <span>Connect</span>
             </h3>
             
-            <div className="flex justify-center md:justify-end gap-3">
+            <div className="flex justify-center md:justify-end gap-4">
               {[
                 { Icon: Github, href: "https://github.com/Genitah-JOBA", label: "GitHub" },
                 { Icon: Linkedin, href: "https://linkedin.com/in/joba-razafindrasoa-genitah-312645333", label: "LinkedIn" },
@@ -366,8 +369,8 @@ export default function Footer() {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  initial={{ scale: 0, rotate: -180 }}
-                  whileInView={{ scale: 1, rotate: 0 }}
+                  initial={{ scale: 0, rotateY: -180 }}
+                  whileInView={{ scale: 1, rotateY: 0 }}
                   transition={{ 
                     type: "spring",
                     stiffness: 260,
@@ -377,30 +380,33 @@ export default function Footer() {
                   whileHover={{ 
                     scale: 1.2,
                     y: -5,
-                    transition: { type: "spring", stiffness: 400 }
+                    rotateY: 15,
                   }}
-                  whileTap={{ scale: 0.9 }}
+                  whileTap={{ scale: 0.95 }}
                   className="relative group"
                 >
                   <motion.div 
-                    className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg"
+                    className="p-2 rounded-lg"
+                    style={{ 
+                      backgroundColor: `${accentColor}15`,
+                      border: `1px solid ${accentColor}30`,
+                    }}
                     animate={{ 
-                      backgroundColor: [
-                        `${lightColor}10`,
-                        `${lightColor}20`,
-                        `${lightColor}10`
+                      boxShadow: [
+                        `0 0 0px ${accentColor}`,
+                        `0 0 15px ${accentColor}30`,
+                        `0 0 0px ${accentColor}`
                       ]
                     }}
                     transition={{ duration: 2, delay: index * 0.3, repeat: Infinity }}
                   >
-                    <item.Icon size={20} className="group-hover:transition-colors" style={{ color: 'inherit' }} />
+                    <item.Icon size={18} style={{ color: accentColor }} />
                   </motion.div>
                   
-                  {/* Tooltip animé */}
+                  {/* Tooltip */}
                   <motion.span 
-                    className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-[8px] bg-gray-800 text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
-                    initial={{ y: 5, opacity: 0 }}
-                    whileHover={{ y: 0, opacity: 1 }}
+                    className="absolute -top-7 left-1/2 transform -translate-x-1/2 text-[8px] px-1.5 py-0.5 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity"
+                    style={{ backgroundColor: accentColor, color: bgColor }}
                   >
                     {item.label}
                   </motion.span>
@@ -408,16 +414,20 @@ export default function Footer() {
               ))}
             </div>
 
-            {/* Contact direct */}
+            {/* Bouton Contact - style identique au Header */}
             <motion.div 
-              className="mt-6 space-y-2"
-              animate={{ y: [0, -2, 0] }}
-              transition={{ duration: 3, repeat: Infinity }}
+              className="mt-6"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               <Link 
                 href="#contact" 
-                className="inline-flex items-center gap-2 px-4 py-2 text-white text-xs rounded-lg hover:opacity-90 transition-colors group"
-                style={{ backgroundColor: lightColor }}
+                onClick={(e) => smoothScrollTo(e, "#contact")}
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm rounded-lg transition-all group"
+                style={{ 
+                  backgroundColor: accentColor,
+                  color: bgColor,
+                }}
               >
                 <MessageSquare size={14} />
                 <span>Send Message</span>
@@ -434,7 +444,7 @@ export default function Footer() {
 
         {/* Séparateur animé */}
         <motion.div 
-          className="my-6 h-[1px] bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent"
+          className="my-8 h-px bg-gradient-to-r from-transparent via-[#14B89C] to-transparent"
           animate={{ 
             scaleX: [0.3, 1, 0.3],
             opacity: [0.2, 0.8, 0.2]
@@ -442,43 +452,36 @@ export default function Footer() {
           transition={{ duration: 6, repeat: Infinity }}
         />
 
-        {/* Bottom bar avec infos légales */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-3 text-[10px] text-gray-500 dark:text-gray-500">
+        {/* Bottom bar */}
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px]" style={{ color: `${textColor}50` }}>
           <motion.div
             className="flex items-center gap-2"
-            animate={{ opacity: [0.7, 1, 0.7] }}
+            animate={{ opacity: [0.6, 1, 0.6] }}
             transition={{ duration: 3, repeat: Infinity }}
           >
-            <Code2 size={12} style={{ color: lightColor }} className="dark:text-[#21D375]" />
+            <Code2 size={10} style={{ color: accentColor }} />
             <span>© {currentYear} JOBA. All rights reserved.</span>
             <motion.div
-              animate={{ scale: [1, 1.2, 1] }}
+              animate={{ scale: [1, 1.3, 1] }}
               transition={{ duration: 1.5, repeat: Infinity }}
+              style={{ color: accentColor }}
             >
-              <Heart size={10} style={{ color: lightColor }} className="dark:text-[#21D375]" />
+              <Heart size={8} />
             </motion.div>
           </motion.div>
           
           <div className="flex gap-4">
-            {[
-              { name: 'Privacy', icon: Shield },
-              { name: 'Terms', icon: Award },
-              { name: 'Sitemap', icon: Layers }
-            ].map((item, index) => (
+            {['Privacy', 'Terms', 'Sitemap'].map((item) => (
               <motion.div
-                key={item.name}
+                key={item}
                 whileHover={{ y: -2 }}
-                animate={{ 
-                  opacity: [0.6, 1, 0.6],
-                }}
-                transition={{ duration: 2.5, delay: index * 0.5, repeat: Infinity }}
               >
                 <Link 
-                  href={`/${item.name.toLowerCase()}`} 
-                  className={`hover:transition-colors flex items-center gap-1 hover:text-[${lightColor}]`}
+                  href={`#`} 
+                  className="transition-all duration-300 hover:tracking-wider"
+                  style={{ color: `${textColor}60` }}
                 >
-                  <item.icon size={10} style={{ color: 'inherit' }} />
-                  {item.name}
+                  {item}
                 </Link>
               </motion.div>
             ))}
@@ -486,16 +489,14 @@ export default function Footer() {
 
           <motion.div 
             className="flex items-center gap-2"
-            animate={{ 
-              rotate: [0, 5, -5, 0],
-            }}
+            animate={{ rotate: [0, 5, -5, 0] }}
             transition={{ duration: 4, repeat: Infinity }}
           >
-            <Globe size={12} style={{ color: lightColor }} className="dark:text-[#21D375]" />
+            <Globe size={10} style={{ color: accentColor }} />
             <span>v2.0.0</span>
           </motion.div>
         </div>
       </div>
     </motion.footer>
   );
-}"// Footer version $(date)" 
+}

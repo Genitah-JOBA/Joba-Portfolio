@@ -5,30 +5,21 @@ import { useState, useEffect } from "react";
 import { User, HouseLine } from "@phosphor-icons/react";
 import { IconCode, IconMail } from '@tabler/icons-react';
 import { StarsIcon } from "hugeicons-react";
-import { Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const [scrollDirection, setScrollDirection] = useState("up");
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
-  // Couleurs des accents uniquement
-  const lightAccent = "#5D8D11"; // Vert olive pour les accents en mode clair
-  const darkAccent = "#21D375"; // Vert néon pour les accents sombres
-  const lightTextColor = "#1E293B"; // Texte foncé pour mode clair
-  const darkTextColor = "#FFFFFF"; // Texte blanc pour mode sombre
+  // UNE SEULE COULEUR PRINCIPALE (vert-bleu émeraude)
+  const accentColor = "#14B89C";
+  const textColor = "#FFFFFF";
+  const backgroundColor = "#0A0F1A";
 
-  // Initialisation et lecture du localStorage
   useEffect(() => {
     setMounted(true);
-    const theme = localStorage.getItem("theme");
-    if (theme === "dark" || (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-      setDarkMode(true);
-      document.documentElement.classList.add("dark");
-    }
   }, []);
 
   // Détection du scroll pour cacher/montrer le header
@@ -49,23 +40,20 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  // Fonction pour changer le mode
-  const toggleTheme = () => {
-    if (darkMode) {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-      setDarkMode(false);
-    } else {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-      setDarkMode(true);
+  // Smooth scroll helper
+  const smoothScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault();
+    const targetElement = document.querySelector(targetId);
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+      setIsOpen(false);
     }
   };
 
-  // Évite le bug d'affichage au premier chargement
-  if (!mounted) return null;
-
-  // Variantes d'animation spectaculaire
+  // Variantes d'animation 3D
   const headerVariants = {
     hidden: { 
       opacity: 0,
@@ -97,6 +85,8 @@ export default function Header() {
     }
   };
 
+  if (!mounted) return null;
+
   return (
     <motion.header
       variants={headerVariants}
@@ -104,12 +94,11 @@ export default function Header() {
       animate={scrollDirection === "down" && lastScrollY > 200 ? "scrollDown" : "visible"}
       whileInView="visible"
       viewport={{ once: false, margin: "-10px" }}
-      // UTILISATION DE LA CLASS bg-custom-header DU GLOBAL.CSS
-      className="fixed w-full z-50 transition-colors duration-300 bg-custom-header"
+      className="fixed w-full z-50"
       style={{ 
-        boxShadow: darkMode 
-          ? '0 4px 20px rgba(0,0,0,0.3)' 
-          : '0 4px 20px rgba(0,0,0,0.1)'
+        backgroundColor: backgroundColor,
+        boxShadow: '0 4px 30px rgba(0,0,0,0.3)',
+        backdropFilter: 'blur(0px)',
       }}
     >
       {/* Effet de particules lumineuses */}
@@ -121,7 +110,7 @@ export default function Header() {
       >
         {/* Ligne lumineuse qui traverse */}
         <motion.div
-          className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#5D8D11] to-transparent dark:via-[#21D375]"
+          className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#14B89C] to-transparent"
           initial={{ x: "-100%", opacity: 0 }}
           animate={{ x: "100%", opacity: 0.5 }}
           transition={{ 
@@ -132,7 +121,7 @@ export default function Header() {
           }}
         />
         
-        {/* Particules flottantes - avec positions fixes pour éviter l'erreur d'hydratation */}
+        {/* Particules flottantes */}
         <div className="absolute inset-0">
           {Array.from({ length: 5 }).map((_, row) => (
             Array.from({ length: 4 }).map((_, col) => {
@@ -150,7 +139,7 @@ export default function Header() {
                   style={{
                     top: `${baseTop}%`,
                     left: `${baseLeft}%`,
-                    backgroundColor: darkMode ? darkAccent : lightAccent,
+                    backgroundColor: accentColor,
                   }}
                   animate={{
                     opacity: [0, 0.8, 0],
@@ -173,20 +162,20 @@ export default function Header() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16 relative z-10">
         
-        {/* Logo avec animation */}
+        {/* Logo 3D avec animation */}
         <motion.div 
           className="text-2xl font-bold relative group"
           style={{ 
             fontFamily: 'Cooper',
-            color: darkMode ? darkTextColor : lightTextColor
+            color: textColor
           }}
-          whileHover={{ scale: 1.1 }}
+          whileHover={{ scale: 1.1, rotateY: 10 }}
           whileTap={{ scale: 0.95 }}
         >
           <motion.span 
             className="absolute -inset-2 rounded-lg opacity-0 group-hover:opacity-100 blur-xl"
             style={{
-              backgroundColor: darkMode ? `${darkAccent}20` : `${lightAccent}20`,
+              backgroundColor: `${accentColor}20`,
             }}
             animate={{
               scale: [1, 1.2, 1],
@@ -197,13 +186,13 @@ export default function Header() {
               ease: "easeInOut"
             }}
           />
-          <span className="text-gray-500 font-mono opacity-50 relative z-10">{"{"}</span>
+          <span className="opacity-50 relative z-10" style={{ color: accentColor }}>{"{"}</span>
             JOBA
-          <span className="text-gray-500 font-mono opacity-50 relative z-10">{"}"}</span>
+          <span className="opacity-50 relative z-10" style={{ color: accentColor }}>{"}"}</span>
         </motion.div>
 
-        {/* Menu desktop - ICÔNES STABLES */}
-        <nav className="hidden md:flex items-center space-x-6" style={{ color: darkMode ? darkTextColor : lightTextColor }}>
+        {/* Menu desktop avec liens fonctionnels */}
+        <nav className="hidden md:flex items-center space-x-6" style={{ color: textColor }}>
           {[
             { href: "#Acceuil", icon: <HouseLine size={22} weight="duotone" />, label: "Home" },
             { href: "#about", icon: <User weight="duotone" size={22} />, label: "About" },
@@ -213,8 +202,8 @@ export default function Header() {
           ].map((item, index) => (
             <motion.div
               key={item.href}
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: -20, rotateX: -45 }}
+              animate={{ opacity: 1, y: 0, rotateX: 0 }}
               transition={{ 
                 delay: 0.3 + index * 0.1,
                 type: "spring",
@@ -225,26 +214,24 @@ export default function Header() {
             >
               <Link 
                 href={item.href} 
+                onClick={(e) => smoothScrollTo(e, item.href)}
                 className="flex items-center gap-2 transition relative"
-                style={{ 
-                  color: darkMode ? darkTextColor : lightTextColor,
-                }}
+                style={{ color: textColor }}
               >
-                {/* ICÔNE SANS ANIMATION DE ROTATION */}
-                <span 
-                  className="transition-colors"
-                  style={{ 
-                    color: 'inherit',
-                  }}
+                <motion.span 
+                  style={{ color: accentColor }}
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 0.5 }}
                 >
                   {item.icon}
-                </span>
+                </motion.span>
                 {item.label}
                 
-                {/* Effet de soulignement au hover */}
+                {/* Effet de soulignement 3D au hover */}
                 <motion.div
-                  className="absolute -bottom-1 left-0 w-0 h-0.5"
-                  style={{ backgroundColor: darkMode ? darkAccent : lightAccent }}
+                  className="absolute -bottom-1 left-0 h-0.5"
+                  style={{ backgroundColor: accentColor }}
+                  initial={{ width: "0%" }}
                   whileHover={{ width: "100%" }}
                   transition={{ duration: 0.3 }}
                 />
@@ -258,7 +245,7 @@ export default function Header() {
               >
                 <motion.div
                   className="w-1 h-1 rounded-full"
-                  style={{ backgroundColor: darkMode ? darkAccent : lightAccent }}
+                  style={{ backgroundColor: accentColor }}
                   animate={{
                     y: [0, -10, 0],
                     x: [0, 5, 0],
@@ -272,49 +259,18 @@ export default function Header() {
               </motion.div>
             </motion.div>
           ))}
-
-          <motion.button 
-            onClick={toggleTheme}
-            className="p-2 rounded-xl transition-all relative group"
-            style={{ 
-              backgroundColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
-              color: darkMode ? darkTextColor : lightTextColor
-            }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.8, type: "spring" }}
-          >
-            <motion.div
-              className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 blur-md"
-              style={{ backgroundColor: darkMode ? `${darkAccent}20` : `${lightAccent}20` }}
-              animate={{
-                scale: [1, 1.2, 1],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-              }}
-            />
-            {darkMode ? (
-              <Sun size={20} className="text-yellow-400 relative z-10" />
-            ) : (
-              <Moon size={20} className="relative z-10" style={{ color: lightTextColor }} />
-            )}
-          </motion.button>
         </nav>
 
-        {/* Bouton mobile avec animation */}
+        {/* Bouton mobile 3D */}
         <motion.div 
           className="md:hidden"
-          whileHover={{ scale: 1.1 }}
+          whileHover={{ scale: 1.1, rotateZ: 5 }}
           whileTap={{ scale: 0.9 }}
         >
           <button 
             onClick={() => setIsOpen(!isOpen)} 
             className="focus:outline-none relative w-8 h-8 flex items-center justify-center"
-            style={{ color: darkMode ? darkTextColor : lightTextColor }}
+            style={{ color: textColor }}
           >
             <motion.span
               animate={{ rotate: isOpen ? 90 : 0 }}
@@ -343,25 +299,26 @@ export default function Header() {
         </motion.div>
       </div>
 
-      {/* Menu mobile avec animation */}
+      {/* Menu mobile 3D avec liens fonctionnels */}
       <AnimatePresence>
         {isOpen && (
           <motion.nav
-            initial={{ opacity: 0, height: 0, y: -20 }}
-            animate={{ opacity: 1, height: "auto", y: 0 }}
-            exit={{ opacity: 0, height: 0, y: -20 }}
+            initial={{ opacity: 0, height: 0, y: -20, rotateX: -90 }}
+            animate={{ opacity: 1, height: "auto", y: 0, rotateX: 0 }}
+            exit={{ opacity: 0, height: 0, y: -20, rotateX: -90 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            // UTILISATION DE LA CLASS bg-custom-header POUR LE MENU MOBILE AUSSI
-            className="md:hidden px-4 py-4 space-y-4 border-t overflow-hidden bg-custom-header"
+            className="md:hidden px-4 py-4 space-y-4 border-t overflow-hidden"
             style={{ 
-              borderColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
-              color: darkMode ? darkTextColor : lightTextColor
+              backgroundColor: backgroundColor,
+              borderColor: 'rgba(255,255,255,0.1)',
+              color: textColor,
+              transformStyle: 'preserve-3d',
             }}
           >
             {[
-              { href: "#about", label: "À propos", icon: <User size={18} /> },
-              { href: "#skills", label: "Compétences", icon: <IconCode size={18} /> },
-              { href: "#projects", label: "Projets", icon: <StarsIcon size={18} /> },
+              { href: "#about", label: "About", icon: <User size={18} /> },
+              { href: "#skills", label: "Skills", icon: <IconCode size={18} /> },
+              { href: "#projects", label: "Projects", icon: <StarsIcon size={18} /> },
               { href: "#contact", label: "Contact", icon: <IconMail size={18} /> },
             ].map((item, index) => (
               <motion.div
@@ -369,40 +326,25 @@ export default function Header() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.1 + index * 0.1 }}
+                whileHover={{ x: 10 }}
               >
                 <Link 
                   href={item.href} 
-                  className="flex items-center gap-2 transition"
-                  style={{ color: darkMode ? darkTextColor : lightTextColor }}
-                  onClick={() => setIsOpen(false)}
+                  onClick={(e) => smoothScrollTo(e, item.href)}
+                  className="flex items-center gap-3 transition py-2 px-3 rounded-lg group"
+                  style={{ color: textColor }}
                 >
-                  <span style={{ color: darkMode ? darkAccent : lightAccent }}>{item.icon}</span>
-                  {item.label}
+                  <motion.span 
+                    style={{ color: accentColor }}
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    {item.icon}
+                  </motion.span>
+                  <span className="group-hover:tracking-wider transition-all duration-300">{item.label}</span>
                 </Link>
               </motion.div>
             ))}
-            
-            <motion.button 
-              onClick={() => {
-                toggleTheme();
-                setIsOpen(false);
-              }}
-              className="flex items-center gap-2 pt-2 border-t w-full text-left transition"
-              style={{ 
-                borderColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
-                color: darkMode ? darkTextColor : lightTextColor
-              }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              {darkMode ? (
-                <Sun size={18} className="text-yellow-400"/>
-              ) : (
-                <Moon size={18} style={{ color: lightTextColor }} />
-              )}
-              {darkMode ? "Mode Clair" : "Mode Sombre"}
-            </motion.button>
           </motion.nav>
         )}
       </AnimatePresence>
