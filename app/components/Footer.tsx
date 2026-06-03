@@ -12,7 +12,9 @@ import { useState, useEffect } from "react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  const [particles, setParticles] = useState<Array<{
+  
+  // SOLUTION: Typage explicite avec valeur initiale
+  type Particle = {
     id: number;
     width: string;
     height: string;
@@ -22,16 +24,25 @@ export default function Footer() {
     delay: number;
     xMove: number;
     yMove: number;
-  }>>([]);
+  };
   
-  // UNE SEULE COULEUR (identique au Header)
+  const [particles, setParticles] = useState<Particle[]>([]);
+  
   const accentColor = "#14B89C";
   const bgColor = "#0A0F1A";
   const textColor = "#FFFFFF";
 
-  // Générer les particules uniquement côté client
+  // SOLUTION: Vérifier qu'on est côté client avant de générer
+  const [isMounted, setIsMounted] = useState(false);
+
   useEffect(() => {
-    const generatedParticles = Array.from({ length: 16 }).map((_, i) => ({
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted) return;
+    
+    const generatedParticles: Particle[] = Array.from({ length: 16 }).map((_, i) => ({
       id: i,
       width: `${Math.random() * 3 + 1}px`,
       height: `${Math.random() * 3 + 1}px`,
@@ -43,9 +54,8 @@ export default function Footer() {
       yMove: -20 - Math.random() * 40,
     }));
     setParticles(generatedParticles);
-  }, []);
+  }, [isMounted]);
 
-  // Smooth scroll helper (identique au Header)
   const smoothScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
     const targetElement = document.querySelector(targetId);
@@ -76,7 +86,7 @@ export default function Footer() {
         transformStyle: 'preserve-3d',
       }}
     >
-      {/* Ligne lumineuse qui traverse (comme dans le Header) */}
+      {/* Ligne lumineuse */}
       <motion.div
         className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#14B89C] to-transparent"
         initial={{ x: "-100%", opacity: 0 }}
@@ -89,8 +99,8 @@ export default function Footer() {
         }}
       />
 
-      {/* Particules flottantes (comme dans le Header) */}
-      {particles.length > 0 && particles.map((particle) => (
+      {/* SOLUTION: Vérifier que particles existe et est monté */}
+      {isMounted && particles.length > 0 && particles.map((particle) => (
         <motion.div
           key={particle.id}
           className="absolute rounded-full"
