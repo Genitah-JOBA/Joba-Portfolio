@@ -624,11 +624,9 @@ export default function Home() {
         </button>
       </div>
 
-      {/* Composant AllProject */}
       <Allproject 
         isOpen={showAllProjects} 
         onClose={() => setShowAllProjects(false)} 
-        projects={projects} 
       />
 
       {/* Contact Section 3D */}
