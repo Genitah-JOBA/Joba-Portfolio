@@ -285,7 +285,7 @@ export default function Home() {
                 className="text-xl md:text-2xl"
               >
                 <span style={{ color: ACCENT_COLOR }}>&lt;</span>
-                Junior Fullstack & Mobile Developer
+                Junior Fullstack &amp; Mobile Developer
                 <span style={{ color: ACCENT_COLOR }}>/&gt;</span>
               </motion.h2>
 
