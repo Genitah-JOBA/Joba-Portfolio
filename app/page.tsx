@@ -285,7 +285,7 @@ export default function Home() {
                 className="text-xl md:text-2xl"
               >
                 <span style={{ color: ACCENT_COLOR }}>&lt;</span>
-                Junior Fullstack Developer
+                Junior Fullstack & Mobile Developer
                 <span style={{ color: ACCENT_COLOR }}>/&gt;</span>
               </motion.h2>
 
@@ -614,13 +614,13 @@ export default function Home() {
       </AnimatePresence>
 
       {/* Bouton View All Projects */}
-      <div className="flex gap-4 mt-8 justify-center pb-12">
+      <div className="flex justify-center mt-16 mb-12">
         <button
           onClick={() => setShowAllProjects(true)}
-          className="text-[#FFFF] flex items-center gap-2 border border-[#21D375] dark:text-[#21D375] px-6 py-3 rounded-lg hover:bg-[#244539] hover:text-white transition group"
+          className="flex items-center gap-2 border-2 border-[#6EE7B7] text-[#6EE7B7] bg-transparent px-8 py-3 rounded-full hover:bg-[#6EE7B7] hover:text-[#050B14] transition-all duration-300 group font-semibold"
         >
           <span>View all projects</span>
-          <Sparkle size={22} weight="duotone" className="group-hover:rotate-3 transition-transform" />
+          <Sparkle size={22} weight="duotone" className="group-hover:rotate-12 transition-transform" />
         </button>
       </div>
 
