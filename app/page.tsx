@@ -617,7 +617,7 @@ export default function Home() {
       <div className="flex gap-4 mt-8 justify-center pb-12">
         <button
           onClick={() => setShowAllProjects(true)}
-          className="text-[#244539] flex items-center gap-2 border border-[#21D375] dark:text-[#21D375] px-6 py-3 rounded-lg hover:bg-[#244539] hover:text-white transition group"
+          className="text-[#FFFF] flex items-center gap-2 border border-[#21D375] dark:text-[#21D375] px-6 py-3 rounded-lg hover:bg-[#244539] hover:text-white transition group"
         >
           <span>View all projects</span>
           <Sparkle size={22} weight="duotone" className="group-hover:rotate-3 transition-transform" />
