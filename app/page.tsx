@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import React from "react";
 import Image from "next/image";
 import { Github, Linkedin, Mail } from "lucide-react";
-import { IconDownload, IconGauge } from '@tabler/icons-react';
+import { IconDownload } from '@tabler/icons-react';
 import { Sparkle } from "@phosphor-icons/react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { Server } from 'lucide-react';
@@ -126,8 +126,8 @@ const projects: Project[] = [
   { id: 3, title: "Modern Portfolio", category: "Frontend", desc: "3D Portfolio with animations.", image: "/Image2.jpg", tags: ["Next.js", "Tailwind", "Framer"], demo: "#" }
 ];
 
-// Composant 3D Card
-const Card3D = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => {
+// Composant 3D Card - MODIFIÉ pour accepter style
+const Card3D = ({ children, className = "", style = {} }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
@@ -155,6 +155,7 @@ const Card3D = ({ children, className = "" }: { children: React.ReactNode; class
       onMouseLeave={handleMouseLeave}
       className={className}
       style={{
+        ...style,
         transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`,
         transition: 'transform 0.1s ease-out',
       }}
@@ -454,7 +455,7 @@ export default function Home() {
               ].map((stat, i) => (
                 <div key={i} className="relative rounded-2xl p-6 border"
                   style={{ background: `${TEXT_COLOR}08`, borderColor: `${ACCENT_COLOR}30` }}>
-                  <Card3D "w-full h-full">
+                  <Card3D className="w-full h-full">
                     <div className="flex justify-between items-start">
                       <div>
                         <p className="text-sm uppercase tracking-wider" style={{ color: ACCENT_COLOR }}>{stat.label}</p>
@@ -493,7 +494,7 @@ export default function Home() {
             {skillCategories.map((cat, idx) => (
               <div key={idx} className="relative rounded-2xl p-6 border group"
                   style={{ background: `${TEXT_COLOR}08`, borderColor: `${ACCENT_COLOR}20` }}>
-                <Card3D "w-full h-full">
+                <Card3D className="w-full h-full">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="p-3 rounded-xl" style={{ backgroundColor: `${ACCENT_COLOR}20` }}>
                       <div style={{ color: ACCENT_COLOR }}>{cat.icon}</div>
@@ -556,7 +557,9 @@ export default function Home() {
           {/* Projects Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project) => (
-              <Card3D key={project.id} className="group relative rounded-2xl overflow-hidden cursor-pointer border" style={{ background: `${TEXT_COLOR}08`, borderColor: `${ACCENT_COLOR}20` }} onClick={() => setSelectedProject(project)}>
+              <Card3D key={project.id} className="group relative rounded-2xl overflow-hidden cursor-pointer border" 
+                style={{ background: `${TEXT_COLOR}08`, borderColor: `${ACCENT_COLOR}20` }} 
+                onClick={() => setSelectedProject(project)}>
                 <div className="relative h-48 overflow-hidden">
                   <Image src={project.image} alt={project.title} fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
