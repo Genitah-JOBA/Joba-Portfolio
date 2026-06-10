@@ -427,7 +427,8 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 gap-12">
             {/* Terminal 3D */}
-            <div className="relative rounded-2xl p-6 backdrop-blur-sm border" style={{ background: `${TEXT_COLOR}08`, borderColor: `${ACCENT_COLOR}30` }}>
+            <div className="relative rounded-2xl p-6 backdrop-blur-sm border" 
+                style={{ background: `${TEXT_COLOR}08`, borderColor: `${ACCENT_COLOR}30` }}>
               <Card3D className="w-full h-full">
               <div className="flex gap-2 mb-4">
                 <div className="w-3 h-3 rounded-full bg-red-500" />
