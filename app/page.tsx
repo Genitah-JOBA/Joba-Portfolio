@@ -430,19 +430,20 @@ export default function Home() {
             <div className="relative rounded-2xl p-6 backdrop-blur-sm border" 
                 style={{ background: `${TEXT_COLOR}08`, borderColor: `${ACCENT_COLOR}30` }}>
               <Card3D className="w-full h-full">
-              <div className="flex gap-2 mb-4">
-                <div className="w-3 h-3 rounded-full bg-red-500" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                <div className="w-3 h-3 rounded-full bg-green-500" />
-              </div>
-              <div className="space-y-3 font-mono text-sm">
-                <p><span style={{ color: ACCENT_COLOR }}>$</span> whoami</p>
-                <p className="text-white/70">Fullstack Developer passionate about impactful digital experiences.</p>
-                <p><span style={{ color: ACCENT_COLOR }}>$</span> skills --tech-stack</p>
-                <p className="text-white/70">React, Next.js, Node.js, Python, PHP, Laravel, Java, C#</p>
-                <motion.span className="inline-block w-2 h-4" style={{ backgroundColor: ACCENT_COLOR }} animate={{ opacity: [1, 0, 1] }} transition={{ duration: 1, repeat: Infinity }} />
-              </div>
-            </Card3D>
+                <div className="flex gap-2 mb-4">
+                  <div className="w-3 h-3 rounded-full bg-red-500" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                  <div className="w-3 h-3 rounded-full bg-green-500" />
+                </div>
+                <div className="space-y-3 font-mono text-sm">
+                  <p><span style={{ color: ACCENT_COLOR }}>$</span> whoami</p>
+                  <p className="text-white/70">Fullstack Developer passionate about impactful digital experiences.</p>
+                  <p><span style={{ color: ACCENT_COLOR }}>$</span> skills --tech-stack</p>
+                  <p className="text-white/70">React, Next.js, Node.js, Python, PHP, Laravel, Java, C#</p>
+                  <motion.span className="inline-block w-2 h-4" style={{ backgroundColor: ACCENT_COLOR }} animate={{ opacity: [1, 0, 1] }} transition={{ duration: 1, repeat: Infinity }} />
+                </div>
+              </Card3D>
+            </div>
 
             {/* Stats 3D */}
             <div className="space-y-6">
@@ -451,18 +452,21 @@ export default function Home() {
                 { label: "Impact", value: "70%", desc: "Client Satisfaction", icon: Award },
                 { label: "Performance", value: "90+", desc: "Lighthouse Score", icon: Gauge },
               ].map((stat, i) => (
-                <Card3D key={i} className="relative rounded-2xl p-6 border" style={{ background: `${TEXT_COLOR}08`, borderColor: `${ACCENT_COLOR}20` }}>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="text-sm uppercase tracking-wider" style={{ color: ACCENT_COLOR }}>{stat.label}</p>
-                      <h3 className="text-3xl font-bold mt-2">{stat.value}</h3>
-                      <p className="text-sm text-white/50 mt-1">{stat.desc}</p>
+                <div key={i} className="relative rounded-2xl p-6 border"
+                  style={{ background: `${TEXT_COLOR}08`, borderColor: `${ACCENT_COLOR}30` }}>
+                  <Card3D "w-full h-full">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="text-sm uppercase tracking-wider" style={{ color: ACCENT_COLOR }}>{stat.label}</p>
+                        <h3 className="text-3xl font-bold mt-2">{stat.value}</h3>
+                        <p className="text-sm text-white/50 mt-1">{stat.desc}</p>
+                      </div>
+                      <div className="p-3 rounded-xl" style={{ backgroundColor: `${ACCENT_COLOR}20` }}>
+                        <stat.icon size={24} style={{ color: ACCENT_COLOR }} />
+                      </div>
                     </div>
-                    <div className="p-3 rounded-xl" style={{ backgroundColor: `${ACCENT_COLOR}20` }}>
-                      <stat.icon size={24} style={{ color: ACCENT_COLOR }} />
-                    </div>
-                  </div>
-                </Card3D>
+                  </Card3D>
+                </div>
               ))}
             </div>
           </div>
@@ -487,33 +491,36 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {skillCategories.map((cat, idx) => (
-              <Card3D key={idx} className="relative rounded-2xl p-6 border group" style={{ background: `${TEXT_COLOR}08`, borderColor: `${ACCENT_COLOR}20` }}>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="p-3 rounded-xl" style={{ backgroundColor: `${ACCENT_COLOR}20` }}>
-                    <div style={{ color: ACCENT_COLOR }}>{cat.icon}</div>
-                  </div>
-                  <h3 className="text-xl font-bold">{cat.title}</h3>
-                </div>
-                <div className="space-y-3">
-                  {cat.skills.map((skill, sIdx) => (
-                    <div key={sIdx}>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span>{skill.name}</span>
-                        <span style={{ color: ACCENT_COLOR }}>{skill.level}%</span>
-                      </div>
-                      <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: `${TEXT_COLOR}20` }}>
-                        <motion.div
-                          className="h-full rounded-full"
-                          style={{ background: `linear-gradient(90deg, ${ACCENT_COLOR}, ${ACCENT_COLOR}80)` }}
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${skill.level}%` }}
-                          transition={{ duration: 1, delay: 0.3 + sIdx * 0.1 }}
-                        />
-                      </div>
+              <div key={idx} className="relative rounded-2xl p-6 border group"
+                  style={{ background: `${TEXT_COLOR}08`, borderColor: `${ACCENT_COLOR}20` }}>
+                <Card3D "w-full h-full">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-3 rounded-xl" style={{ backgroundColor: `${ACCENT_COLOR}20` }}>
+                      <div style={{ color: ACCENT_COLOR }}>{cat.icon}</div>
                     </div>
-                  ))}
-                </div>
-              </Card3D>
+                    <h3 className="text-xl font-bold">{cat.title}</h3>
+                  </div>
+                  <div className="space-y-3">
+                    {cat.skills.map((skill, sIdx) => (
+                      <div key={sIdx}>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span>{skill.name}</span>
+                          <span style={{ color: ACCENT_COLOR }}>{skill.level}%</span>
+                        </div>
+                        <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: `${TEXT_COLOR}20` }}>
+                          <motion.div
+                            className="h-full rounded-full"
+                            style={{ background: `linear-gradient(90deg, ${ACCENT_COLOR}, ${ACCENT_COLOR}80)` }}
+                            initial={{ width: 0 }}
+                            whileInView={{ width: `${skill.level}%` }}
+                            transition={{ duration: 1, delay: 0.3 + sIdx * 0.1 }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </Card3D>
+              </div>
             ))}
           </div>
         </div>
