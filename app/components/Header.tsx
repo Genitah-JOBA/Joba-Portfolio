@@ -194,7 +194,7 @@ export default function Header() {
         {/* Menu desktop avec liens fonctionnels */}
         <nav className="hidden md:flex items-center space-x-6" style={{ color: textColor }}>
           {[
-            { href: "#Acceuil", icon: <HouseLine size={22} weight="duotone" />, label: "Home" },
+            { href: "#acceuil", icon: <HouseLine size={22} weight="duotone" />, label: "Home" },
             { href: "#about", icon: <User weight="duotone" size={22} />, label: "About" },
             { href: "#skills", icon: <IconCode stroke={1.5} size={20} />, label: "Skills" },
             { href: "#projects", icon: <StarsIcon size={20} />, label: "Projects" },

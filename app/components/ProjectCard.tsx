@@ -202,7 +202,7 @@ export default function Home() {
     <main>
       {/* SECTION ACCEUIL */}
       <section
-        id="Acceuil"
+        id="acceuil"
         className="min-h-screen py-12 md:py-20 flex items-center justify-center px-6"
       >
         <div className="max-w-7xl mx-auto flex flex-col-reverse md:grid md:grid-cols-2 gap-10 items-center">
