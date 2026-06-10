@@ -614,13 +614,13 @@ export default function Home() {
       </AnimatePresence>
 
       {/* Bouton View All Projects */}
-      <div className="flex justify-center mt-16 mb-12">
+      <div className="flex justify-center my-16">
         <button
           onClick={() => setShowAllProjects(true)}
-          className="flex items-center gap-2 border-2 border-[#6EE7B7] text-[#6EE7B7] bg-transparent px-8 py-3 rounded-full hover:bg-[#6EE7B7] hover:text-[#050B14] transition-all duration-300 group font-semibold"
+          className="flex items-center gap-2 border-2 border-[#6EE7B7] text-[#6EE7B7] bg-transparent px-8 py-3 rounded-full hover:bg-[#6EE7B7] hover:text-[#050B14] transition-all duration-300 font-semibold"
         >
           <span>View all projects</span>
-          <Sparkle size={22} weight="duotone" className="group-hover:rotate-12 transition-transform" />
+          <Sparkle size={22} weight="duotone" />
         </button>
       </div>
 
