@@ -1,5 +1,7 @@
 "use client";
 
+import Allproject from './components/Allproject';
+
 import { useState, useRef, useEffect } from "react";
 import React from "react";
 import Image from "next/image";
@@ -126,7 +128,7 @@ const projects: Project[] = [
   { id: 3, title: "Modern Portfolio", category: "Frontend", desc: "3D Portfolio with animations.", image: "/Image2.jpg", tags: ["Next.js", "Tailwind", "Framer"], demo: "#" }
 ];
 
-// Composant 3D Card - MODIFIÉ pour accepter style
+// Composant 3D Card
 const Card3D = ({ children, className = "", style = {}, onClick }: { 
   children: React.ReactNode; 
   className?: string; 
@@ -193,6 +195,7 @@ export default function Home() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(false);
   const [messageBox, setMessageBox] = useState<MessageBoxState>({ show: false, type: '', message: '' });
+  const [showAllProjects, setShowAllProjects] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
@@ -586,7 +589,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Project Modal */}
+      {/* Project Modal - Projet individuel */}
       <AnimatePresence>
         {selectedProject && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
@@ -609,6 +612,24 @@ export default function Home() {
           </div>
         )}
       </AnimatePresence>
+
+      {/* Bouton View All Projects */}
+      <div className="flex gap-4 mt-8 justify-center pb-12">
+        <button
+          onClick={() => setShowAllProjects(true)}
+          className="text-[#244539] flex items-center gap-2 border border-[#21D375] dark:text-[#21D375] px-6 py-3 rounded-lg hover:bg-[#244539] hover:text-white transition group"
+        >
+          <span>View all projects</span>
+          <Sparkle size={22} weight="duotone" className="group-hover:rotate-3 transition-transform" />
+        </button>
+      </div>
+
+      {/* Composant AllProject */}
+      <Allproject 
+        isOpen={showAllProjects} 
+        onClose={() => setShowAllProjects(false)} 
+        projects={projects} 
+      />
 
       {/* Contact Section 3D */}
       <motion.section
