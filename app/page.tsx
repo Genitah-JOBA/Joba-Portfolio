@@ -127,7 +127,12 @@ const projects: Project[] = [
 ];
 
 // Composant 3D Card - MODIFIÉ pour accepter style
-const Card3D = ({ children, className = "", style = {} }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) => {
+const Card3D = ({ children, className = "", style = {}, onClick }: { 
+  children: React.ReactNode; 
+  className?: string; 
+  style?: React.CSSProperties;
+  onClick?: () => void;
+}) => {
   const ref = useRef<HTMLDivElement>(null);
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
@@ -153,6 +158,7 @@ const Card3D = ({ children, className = "", style = {} }: { children: React.Reac
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      onClick={onClick}
       className={className}
       style={{
         ...style,
