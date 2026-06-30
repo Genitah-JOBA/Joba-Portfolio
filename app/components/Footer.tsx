@@ -5,7 +5,9 @@ import {
   Github, Linkedin, Mail, Sparkles, Code2, 
   Heart, Zap, Award, User, Layers, Briefcase,
   MessageSquare, MapPin, Clock, Star, Shield,
-  Globe, ArrowUpRight, ChevronRight
+  Globe, ArrowUpRight, ChevronRight,
+  Terminal, Cpu, Database, Server, Cloud,
+  Layout, Smartphone, Braces, Coffee, GitBranch
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
@@ -13,7 +15,6 @@ import { useState, useEffect } from "react";
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   
-  // SOLUTION: Typage explicite avec valeur initiale
   type Particle = {
     id: number;
     width: string;
@@ -32,7 +33,6 @@ export default function Footer() {
   const bgColor = "#0A0F1A";
   const textColor = "#FFFFFF";
 
-  // SOLUTION: Vérifier qu'on est côté client avant de générer
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -67,6 +67,40 @@ export default function Footer() {
     }
   };
 
+  // Technologies avec icônes
+  const technologies = [
+    { name: "React", icon: Braces },
+    { name: "Vue.js", icon: Layout },
+    { name: "Laravel", icon: Coffee },
+    { name: "Node.js", icon: Server },
+    { name: "MySQL", icon: Database },
+    { name: "Git", icon: GitBranch },
+  ];
+
+  // Social links
+  const socialLinks = [
+    { Icon: Github, href: "https://github.com/Genitah-JOBA", label: "GitHub" },
+    { Icon: Linkedin, href: "https://linkedin.com/in/joba-razafindrasoa-genitah-312645333", label: "LinkedIn" },
+    { Icon: Mail, href: "mailto:genitahrazafindrasoa@gmail.com", label: "Email" },
+  ];
+
+  // Navigation items
+  const navItems = [
+    { name: 'About', icon: User, href: '#about' },
+    { name: 'Skills', icon: Layers, href: '#skills' },
+    { name: 'Projects', icon: Briefcase, href: '#projects' },
+    { name: 'Experience', icon: Award, href: '#experience' },
+    { name: 'Contact', icon: MessageSquare, href: '#contact' }
+  ];
+
+  // Stats
+  const stats = [
+    { icon: Code2, value: "3+", label: "Years Exp" },
+    { icon: Briefcase, value: "8+", label: "Projects" },
+    { icon: Star, value: "2", label: "Clients" },
+    { icon: Award, value: "5", label: "Certifications" }
+  ];
+
   return (
     <motion.footer 
       initial={{ opacity: 0, y: 100, rotateX: 45 }}
@@ -99,7 +133,7 @@ export default function Footer() {
         }}
       />
 
-      {/* SOLUTION: Vérifier que particles existe et est monté */}
+      {/* Particules */}
       {isMounted && particles.length > 0 && particles.map((particle) => (
         <motion.div
           key={particle.id}
@@ -128,7 +162,7 @@ export default function Footer() {
 
       <div className="max-w-7xl mx-auto px-6 py-12 relative z-10">
         {/* Section principale avec 4 colonnes */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           
           {/* Colonne 1 - Brand & Stats */}
           <motion.div 
@@ -178,13 +212,9 @@ export default function Footer() {
               Fullstack Developer & Problem Solver
             </motion.p>
 
-            {/* Statistiques animées */}
-            <div className="grid grid-cols-3 gap-3 mt-5">
-              {[
-                { icon: Code2, value: "2", label: "Years" },
-                { icon: Briefcase, value: "8+", label: "Projects" },
-                { icon: Star, value: "2", label: "Clients" }
-              ].map((stat, index) => (
+            {/* Statistiques */}
+            <div className="grid grid-cols-2 gap-2 mt-4">
+              {stats.map((stat, index) => (
                 <motion.div
                   key={index}
                   initial={{ scale: 0, rotateX: -90 }}
@@ -198,7 +228,7 @@ export default function Footer() {
                     transition={{ duration: 3, delay: index * 0.5, repeat: Infinity }}
                     style={{ color: accentColor }}
                   >
-                    <stat.icon size={18} className="mx-auto" />
+                    <stat.icon size={16} className="mx-auto" />-
                   </motion.div>
                   <motion.div 
                     className="text-base font-bold mt-1"
@@ -238,12 +268,7 @@ export default function Footer() {
             </h3>
             
             <div className="space-y-3">
-              {[
-                { name: 'About', icon: User, href: '#about' },
-                { name: 'Skills', icon: Layers, href: '#skills' },
-                { name: 'Projects', icon: Briefcase, href: '#projects' },
-                { name: 'Contact', icon: MessageSquare, href: '#contact' }
-              ].map((item, index) => (
+              {navItems.map((item, index) => (
                 <motion.div
                   key={item.name}
                   initial={{ x: -30, opacity: 0 }}
@@ -277,7 +302,7 @@ export default function Footer() {
               ))}
             </div>
 
-            {/* Badge disponible (comme dans le Header) */}
+            {/* Badge disponible */}
             <motion.div
               initial={{ opacity: 0, scale: 0 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -298,7 +323,7 @@ export default function Footer() {
             </motion.div>
           </motion.div>
 
-          {/* Colonne 3 - Expertise */}
+          {/* Colonne 3 - Technologies */}
           <motion.div 
             initial={{ y: 50, opacity: 0, rotateX: -30 }}
             whileInView={{ y: 0, opacity: 1, rotateX: 0 }}
@@ -306,74 +331,54 @@ export default function Footer() {
             className="text-center md:text-left"
           >
             <h3 className="text-sm font-semibold mb-5 flex items-center justify-center md:justify-start gap-2">
-              <Award size={16} style={{ color: accentColor }} />
-              <span>Expertise</span>
+              <Cpu size={16} style={{ color: accentColor }} />
+              <span>Tech Stack</span>
             </h3>
 
-            <div className="space-y-3">
-              {[
-                { tech: "Vue.js", level: 70 },
-                { tech: "Laravel", level: 75 },
-                { tech: "MySQL", level: 90 },
-                { tech: "GitHub", level: 85 },
-                { tech: "VS Code", level: 90 }
-              ].map((skill, index) => (
+            <div className="grid grid-cols-2 gap-2">
+              {technologies.map((tech, index) => (
                 <motion.div
-                  key={skill.tech}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ delay: 0.5 + index * 0.1 }}
+                  key={tech.name}
+                  initial={{ scale: 0, rotateX: 90 }}
+                  whileInView={{ scale: 1, rotateX: 0 }}
+                  transition={{ delay: 0.5 + index * 0.08, type: "spring" }}
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  className="flex items-center gap-2 p-2 rounded-lg text-xs"
+                  style={{ 
+                    backgroundColor: `${accentColor}08`,
+                    border: `1px solid ${accentColor}15`
+                  }}
                 >
-                  <div className="flex justify-between text-[10px] mb-1">
-                    <span style={{ color: `${textColor}CC` }}>{skill.tech}</span>
-                    <span style={{ color: accentColor }}>{skill.level}%</span>
-                  </div>
-                  <div className="h-1 rounded-full overflow-hidden" style={{ backgroundColor: `${textColor}20` }}>
-                    <motion.div
-                      className="h-full rounded-full relative"
-                      style={{ backgroundColor: accentColor }}
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${skill.level}%` }}
-                      transition={{ duration: 1, delay: 0.6 + index * 0.1 }}
-                    >
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
-                        animate={{ x: ['-100%', '200%'] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
-                      />
-                    </motion.div>
-                  </div>
+                  <tech.icon size={14} style={{ color: accentColor }} />
+                  <span style={{ color: `${textColor}CC` }}>{tech.name}</span>
                 </motion.div>
               ))}
             </div>
 
             <motion.div 
-              className="mt-6 flex items-center justify-center md:justify-start"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              className="mt-4 text-center md:text-left text-[10px]"
+              style={{ color: `${textColor}40` }}
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 3, repeat: Infinity }}
             >
-              <Globe size={18} style={{ color: accentColor }} />
+              <span>+5 more technologies</span>
             </motion.div>
           </motion.div>
 
-          {/* Colonne 4 - Connect */}
+          {/* Colonne 4 - Social & Contact */}
           <motion.div 
             initial={{ x: 50, opacity: 0, rotateY: 45 }}
             whileInView={{ x: 0, opacity: 1, rotateY: 0 }}
             transition={{ duration: 0.6, type: "spring", delay: 0.4 }}
-            className="text-center md:text-right"
+            className="text-center md:text-left"
           >
-            <h3 className="text-sm font-semibold mb-5 flex items-center justify-center md:justify-end gap-2">
-              <Sparkles size={16} style={{ color: accentColor }} />
+            <h3 className="text-sm font-semibold mb-5 flex items-center justify-center md:justify-start gap-2">
+              <Globe size={16} style={{ color: accentColor }} />
               <span>Connect</span>
             </h3>
             
-            <div className="flex justify-center md:justify-end gap-4">
-              {[
-                { Icon: Github, href: "https://github.com/Genitah-JOBA", label: "GitHub" },
-                { Icon: Linkedin, href: "https://linkedin.com/in/joba-razafindrasoa-genitah-312645333", label: "LinkedIn" },
-                { Icon: Mail, href: "mailto:genitahrazafindrasoa@gmail.com", label: "Email" }
-              ].map((item, index) => (
+            <div className="flex flex-wrap justify-center md:justify-start gap-3">
+              {socialLinks.map((item, index) => (
                 <motion.a
                   key={index}
                   href={item.href}
@@ -385,10 +390,10 @@ export default function Footer() {
                     type: "spring",
                     stiffness: 260,
                     damping: 20,
-                    delay: 0.6 + index * 0.1
+                    delay: 0.6 + index * 0.08
                   }}
                   whileHover={{ 
-                    scale: 1.2,
+                    scale: 1.15,
                     y: -5,
                     rotateY: 15,
                   }}
@@ -396,7 +401,7 @@ export default function Footer() {
                   className="relative group"
                 >
                   <motion.div 
-                    className="p-2 rounded-lg"
+                    className="p-2.5 rounded-lg"
                     style={{ 
                       backgroundColor: `${accentColor}15`,
                       border: `1px solid ${accentColor}30`,
@@ -408,12 +413,11 @@ export default function Footer() {
                         `0 0 0px ${accentColor}`
                       ]
                     }}
-                    transition={{ duration: 2, delay: index * 0.3, repeat: Infinity }}
+                    transition={{ duration: 2, delay: index * 0.2, repeat: Infinity }}
                   >
-                    <item.Icon size={18} style={{ color: accentColor }} />
+                    <item.Icon size={16} style={{ color: accentColor }} />
                   </motion.div>
                   
-                  {/* Tooltip */}
                   <motion.span 
                     className="absolute -top-7 left-1/2 transform -translate-x-1/2 text-[8px] px-1.5 py-0.5 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity"
                     style={{ backgroundColor: accentColor, color: bgColor }}
@@ -424,16 +428,16 @@ export default function Footer() {
               ))}
             </div>
 
-            {/* Bouton Contact - style identique au Header */}
+            {/* Bouton Contact */}
             <motion.div 
-              className="mt-6"
+              className="mt-5"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <Link 
                 href="#contact" 
                 onClick={(e) => smoothScrollTo(e, "#contact")}
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm rounded-lg transition-all group"
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm rounded-lg transition-all group w-full justify-center"
                 style={{ 
                   backgroundColor: accentColor,
                   color: bgColor,

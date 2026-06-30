@@ -6,6 +6,7 @@ import { User, HouseLine } from "@phosphor-icons/react";
 import { IconCode, IconMail } from '@tabler/icons-react';
 import { StarsIcon } from "hugeicons-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { BookOpen, Briefcase } from "lucide-react"; // Ajout des deux icônes
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +14,6 @@ export default function Header() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [mounted, setMounted] = useState(false);
 
-  // UNE SEULE COULEUR PRINCIPALE (vert-bleu émeraude)
   const accentColor = "#14B89C";
   const textColor = "#FFFFFF";
   const backgroundColor = "#0A0F1A";
@@ -22,25 +22,20 @@ export default function Header() {
     setMounted(true);
   }, []);
 
-  // Détection du scroll pour cacher/montrer le header
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
         setScrollDirection("down");
       } else {
         setScrollDirection("up");
       }
-      
       setLastScrollY(currentScrollY);
     };
-
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  // Smooth scroll helper
   const smoothScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
     const targetElement = document.querySelector(targetId);
@@ -53,7 +48,6 @@ export default function Header() {
     }
   };
 
-  // Variantes d'animation 3D
   const headerVariants = {
     hidden: { 
       opacity: 0,
@@ -79,9 +73,7 @@ export default function Header() {
     scrollDown: {
       y: -100,
       opacity: 0,
-      transition: {
-        duration: 0.3
-      }
+      transition: { duration: 0.3 }
     }
   };
 
@@ -101,14 +93,13 @@ export default function Header() {
         backdropFilter: 'blur(0px)',
       }}
     >
-      {/* Effet de particules lumineuses */}
+      {/* Particules et ligne lumineuse */}
       <motion.div
         className="absolute inset-0 pointer-events-none overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        {/* Ligne lumineuse qui traverse */}
         <motion.div
           className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#14B89C] to-transparent"
           initial={{ x: "-100%", opacity: 0 }}
@@ -121,7 +112,6 @@ export default function Header() {
           }}
         />
         
-        {/* Particules flottantes */}
         <div className="absolute inset-0">
           {Array.from({ length: 5 }).map((_, row) => (
             Array.from({ length: 4 }).map((_, col) => {
@@ -162,41 +152,32 @@ export default function Header() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16 relative z-10">
         
-        {/* Logo 3D avec animation */}
+        {/* Logo */}
         <motion.div 
           className="text-2xl font-bold relative group"
-          style={{ 
-            fontFamily: 'Cooper',
-            color: textColor
-          }}
+          style={{ fontFamily: 'Cooper', color: textColor }}
           whileHover={{ scale: 1.1, rotateY: 10 }}
           whileTap={{ scale: 0.95 }}
         >
           <motion.span 
             className="absolute -inset-2 rounded-lg opacity-0 group-hover:opacity-100 blur-xl"
-            style={{
-              backgroundColor: `${accentColor}20`,
-            }}
-            animate={{
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
+            style={{ backgroundColor: `${accentColor}20` }}
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           />
           <span className="opacity-50 relative z-10" style={{ color: accentColor }}>{"{"}</span>
             JOBA
           <span className="opacity-50 relative z-10" style={{ color: accentColor }}>{"}"}</span>
         </motion.div>
 
-        {/* Menu desktop avec liens fonctionnels */}
+        {/* Menu desktop */}
         <nav className="hidden md:flex items-center space-x-6" style={{ color: textColor }}>
           {[
             { href: "#acceuil", icon: <HouseLine size={22} weight="duotone" />, label: "Home" },
             { href: "#about", icon: <User weight="duotone" size={22} />, label: "About" },
+            { href: "#experience", icon: <Briefcase size={22} />, label: "Experience" }, // NOUVEAU
             { href: "#skills", icon: <IconCode stroke={1.5} size={20} />, label: "Skills" },
+            //{ href: "#knowledge", icon: <BookOpen size={22} />, label: "Knowledge" },
             { href: "#projects", icon: <StarsIcon size={20} />, label: "Projects" },
             { href: "#contact", icon: <IconMail size={18} />, label: "Contact" },
           ].map((item, index) => (
@@ -226,8 +207,6 @@ export default function Header() {
                   {item.icon}
                 </motion.span>
                 {item.label}
-                
-                {/* Effet de soulignement 3D au hover */}
                 <motion.div
                   className="absolute -bottom-1 left-0 h-0.5"
                   style={{ backgroundColor: accentColor }}
@@ -236,8 +215,6 @@ export default function Header() {
                   transition={{ duration: 0.3 }}
                 />
               </Link>
-              
-              {/* Particule au hover */}
               <motion.div
                 className="absolute -inset-2 pointer-events-none"
                 initial={{ opacity: 0 }}
@@ -261,7 +238,7 @@ export default function Header() {
           ))}
         </nav>
 
-        {/* Bouton mobile 3D */}
+        {/* Bouton mobile */}
         <motion.div 
           className="md:hidden"
           whileHover={{ scale: 1.1, rotateZ: 5 }}
@@ -275,31 +252,15 @@ export default function Header() {
             <motion.span
               animate={{ rotate: isOpen ? 90 : 0 }}
               transition={{ duration: 0.3 }}
-              className="absolute"
+              className="absolute text-2xl"
             >
-              {isOpen ? (
-                <motion.span
-                  initial={{ rotate: -90 }}
-                  animate={{ rotate: 0 }}
-                  className="text-2xl"
-                >
-                  ✕
-                </motion.span>
-              ) : (
-                <motion.span
-                  initial={{ rotate: 90 }}
-                  animate={{ rotate: 0 }}
-                  className="text-2xl"
-                >
-                  ☰
-                </motion.span>
-              )}
+              {isOpen ? "✕" : "☰"}
             </motion.span>
           </button>
         </motion.div>
       </div>
 
-      {/* Menu mobile 3D avec liens fonctionnels */}
+      {/* Menu mobile */}
       <AnimatePresence>
         {isOpen && (
           <motion.nav
@@ -317,7 +278,9 @@ export default function Header() {
           >
             {[
               { href: "#about", label: "About", icon: <User size={18} /> },
+              { href: "#experience", label: "Experience", icon: <Briefcase size={18} /> }, // NOUVEAU
               { href: "#skills", label: "Skills", icon: <IconCode size={18} /> },
+              { href: "#knowledge", label: "Knowledge", icon: <BookOpen size={18} /> },
               { href: "#projects", label: "Projects", icon: <StarsIcon size={18} /> },
               { href: "#contact", label: "Contact", icon: <IconMail size={18} /> },
             ].map((item, index) => (
