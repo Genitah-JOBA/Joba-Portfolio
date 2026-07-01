@@ -73,7 +73,7 @@ const allProjects: Project[] = [
     desc: "Auralis is a modern and elegant music player, built with React and Vite. It offers an intuitive user interface inspired by Apple Music, with a clean design and immersive visual effects.", 
     image: "/Auralis1.png", 
     tags: ["React", "Vite", "CSS"], 
-    demo: "https://genitah-joba.github.io/Auralis/" 
+    demo: "https://music-nu-khaki.vercel.app/" 
   }
 ];
 
