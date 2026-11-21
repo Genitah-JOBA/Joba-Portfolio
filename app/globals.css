@@ -2,16 +2,34 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ============ THEME TOKENS ============
+   Light is the default theme; the `dark` class on <html> switches to dark.
+   --color-white is remapped to the foreground so every `text-white/xx`,
+   `bg-white/xx` and `border-white` utility follows the active theme. */
 :root {
-  --header-bg: #A2CA6C; 
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f5f7f6;
+  --surface: #ffffff;
+  --fg: #0b1220;
+  --accent: #047857;
+  --accent-soft: #d1fae5;
+  --on-accent: #ffffff;
+  --header-bg: #ffffff;
+  --background: var(--bg);
+  --foreground: var(--fg);
+  --color-white: var(--fg);
+  color-scheme: light;
 }
 
 .dark {
-  --header-bg: #244539; 
-  --background: #0e0c0c; 
-  --foreground: #ededed;
+  --bg: #050b14;
+  --surface: #0a0f1a;
+  --fg: #ffffff;
+  --accent: #6ee7b7;
+  --accent-soft: #0f2a22;
+  --on-accent: #050b14;
+  --header-bg: #0a0f1a;
+  --color-white: #ffffff;
+  color-scheme: dark;
 }
 
 @theme {
@@ -23,9 +41,14 @@
   background-color: var(--header-bg) !important;
 }
 
+html,
 body {
-  background-color: var(--background);
-  color: var(--foreground);
+  background-color: var(--bg);
+  color: var(--fg);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
   font-family: 'Time New Roman';
 }
 
@@ -42,15 +65,15 @@ footer {
   animation: shimmer 2s infinite;
 }
 
-  @keyframes pulse-slow {
-    0%, 100% {
-      opacity: 0.1;
-    }
-    50% {
-      opacity: 0.18;
-    }
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.1;
   }
-  
-  .animate-pulse-slow {
-    animation: pulse-slow 8s ease-in-out infinite;
+  50% {
+    opacity: 0.18;
   }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 8s ease-in-out infinite;
+}

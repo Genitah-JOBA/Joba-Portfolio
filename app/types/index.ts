@@ -42,7 +42,7 @@ export interface Experience {
   location: string;
   period: string;
   duration: string;
-  type: 'Stage' | 'Mission' | 'Formation' | 'Certification' | 'Projet';
+  type: 'Stage' | 'Mission' | 'Formation' | 'Certification' | 'Projet' | 'Hackathon';
   description: string;
   technologies: string[];
   icon: React.ReactElement;

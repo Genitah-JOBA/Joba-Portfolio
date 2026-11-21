@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { 
-  Github, Linkedin, Mail, Sparkles, Code2, 
+import {
+  Github, Linkedin, Mail, Sparkles, Code2,
   Heart, Zap, Award, User, Layers, Briefcase,
   MessageSquare, MapPin, Clock, Star, Shield,
   Globe, ArrowUpRight, ChevronRight,
@@ -11,10 +11,15 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useApp } from "@/app/providers/AppProviders";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  
+  const { t } = useApp();
+  const pathname = usePathname();
+  const router = useRouter();
+
   type Particle = {
     id: number;
     width: string;
@@ -26,12 +31,12 @@ export default function Footer() {
     xMove: number;
     yMove: number;
   };
-  
+
   const [particles, setParticles] = useState<Particle[]>([]);
-  
-  const accentColor = "#14B89C";
-  const bgColor = "#0A0F1A";
-  const textColor = "#FFFFFF";
+
+  const accentColor = "var(--accent)";
+  const bgColor = "var(--surface)";
+  const textColor = "var(--fg)";
 
   const [isMounted, setIsMounted] = useState(false);
 
@@ -41,7 +46,7 @@ export default function Footer() {
 
   useEffect(() => {
     if (!isMounted) return;
-    
+
     const generatedParticles: Particle[] = Array.from({ length: 16 }).map((_, i) => ({
       id: i,
       width: `${Math.random() * 3 + 1}px`,
@@ -58,6 +63,10 @@ export default function Footer() {
 
   const smoothScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
+    if (pathname !== "/") {
+      router.push("/" + targetId);
+      return;
+    }
     const targetElement = document.querySelector(targetId);
     if (targetElement) {
       targetElement.scrollIntoView({
@@ -86,26 +95,26 @@ export default function Footer() {
 
   // Navigation items
   const navItems = [
-    { name: 'About', icon: User, href: '#about' },
-    { name: 'Skills', icon: Layers, href: '#skills' },
-    { name: 'Projects', icon: Briefcase, href: '#projects' },
-    { name: 'Experience', icon: Award, href: '#experience' },
-    { name: 'Contact', icon: MessageSquare, href: '#contact' }
+    { name: t('nav.about'), icon: User, href: '#about' },
+    { name: t('footer.skills'), icon: Layers, href: '#skills' },
+    { name: t('nav.projects'), icon: Briefcase, href: '#projects' },
+    { name: t('nav.experience'), icon: Award, href: '#experience' },
+    { name: t('nav.contact'), icon: MessageSquare, href: '#contact' }
   ];
 
   // Stats
   const stats = [
-    { icon: Code2, value: "3+", label: "Years Exp" },
-    { icon: Briefcase, value: "8+", label: "Projects" },
-    { icon: Star, value: "2", label: "Clients" },
-    { icon: Award, value: "5", label: "Certifications" }
+    { icon: Code2, value: "3+", label: t('footer.statYears') },
+    { icon: Briefcase, value: "14", label: t('footer.statProjects') },
+    { icon: Star, value: "2", label: t('footer.statClients') },
+    { icon: Award, value: "5", label: t('footer.statCerts') }
   ];
 
   return (
-    <motion.footer 
+    <motion.footer
       initial={{ opacity: 0, y: 100, rotateX: 45 }}
       whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-      transition={{ 
+      transition={{
         duration: 0.8,
         type: "spring",
         stiffness: 100,
@@ -113,19 +122,19 @@ export default function Footer() {
       }}
       viewport={{ once: true, amount: 0.3 }}
       className="w-full relative overflow-hidden"
-      style={{ 
+      style={{
         backgroundColor: bgColor,
         color: textColor,
-        borderTop: `1px solid ${accentColor}30`,
+        borderTop: `1px solid color-mix(in srgb, ${accentColor} 19%, transparent)`,
         transformStyle: 'preserve-3d',
       }}
     >
       {/* Ligne lumineuse */}
       <motion.div
-        className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#14B89C] to-transparent"
+        className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--accent)] to-transparent"
         initial={{ x: "-100%", opacity: 0 }}
         animate={{ x: "100%", opacity: 0.5 }}
-        transition={{ 
+        transition={{
           duration: 2,
           repeat: Infinity,
           repeatDelay: 3,
@@ -163,9 +172,9 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-12 relative z-10">
         {/* Section principale avec 4 colonnes */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          
+
           {/* Colonne 1 - Brand & Stats */}
-          <motion.div 
+          <motion.div
             initial={{ x: -50, opacity: 0, rotateY: -45 }}
             whileInView={{ x: 0, opacity: 1, rotateY: 0 }}
             transition={{ duration: 0.6, type: "spring", delay: 0.1 }}
@@ -178,7 +187,7 @@ export default function Footer() {
               <h2 className="text-2xl font-bold relative z-10" style={{ fontFamily: 'Cooper' }}>
                 <span style={{ color: accentColor }}>{"{"}</span>
                 <motion.span
-                  animate={{ 
+                  animate={{
                     textShadow: [
                       `0 0 0px ${accentColor}`,
                       `0 0 15px ${accentColor}`,
@@ -193,8 +202,8 @@ export default function Footer() {
               </h2>
               <motion.div
                 className="absolute -inset-2 rounded-lg -z-10"
-                style={{ backgroundColor: `${accentColor}15` }}
-                animate={{ 
+                style={{ backgroundColor: `color-mix(in srgb, ${accentColor} 8%, transparent)` }}
+                animate={{
                   scale: [1, 1.1, 1],
                   opacity: [0.3, 0.6, 0.3]
                 }}
@@ -202,14 +211,14 @@ export default function Footer() {
               />
             </motion.div>
 
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
               className="text-sm mt-3"
-              style={{ color: `${textColor}CC` }}
+              style={{ color: `color-mix(in srgb, ${textColor} 80%, transparent)` }}
             >
-              Fullstack Developer & Problem Solver
+              {t('footer.tagline')}
             </motion.p>
 
             {/* Statistiques */}
@@ -221,30 +230,30 @@ export default function Footer() {
                   whileInView={{ scale: 1, rotateX: 0 }}
                   transition={{ delay: 0.3 + index * 0.1, type: "spring" }}
                   className="text-center p-2 rounded-lg"
-                  style={{ backgroundColor: `${accentColor}10` }}
+                  style={{ backgroundColor: `color-mix(in srgb, ${accentColor} 6%, transparent)` }}
                 >
                   <motion.div
                     animate={{ y: [0, -3, 0] }}
                     transition={{ duration: 3, delay: index * 0.5, repeat: Infinity }}
                     style={{ color: accentColor }}
                   >
-                    <stat.icon size={16} className="mx-auto" />-
+                    <stat.icon size={16} className="mx-auto" />
                   </motion.div>
-                  <motion.div 
+                  <motion.div
                     className="text-base font-bold mt-1"
                     animate={{ scale: [1, 1.1, 1] }}
                     transition={{ duration: 2, delay: index * 0.3, repeat: Infinity }}
                   >
                     {stat.value}
                   </motion.div>
-                  <div className="text-[9px]" style={{ color: `${textColor}60` }}>{stat.label}</div>
+                  <div className="text-[9px]" style={{ color: `color-mix(in srgb, ${textColor} 38%, transparent)` }}>{stat.label}</div>
                 </motion.div>
               ))}
             </div>
 
-            <motion.div 
+            <motion.div
               className="flex items-center justify-center md:justify-start gap-3 mt-4 text-xs"
-              style={{ color: `${textColor}60` }}
+              style={{ color: `color-mix(in srgb, ${textColor} 38%, transparent)` }}
               animate={{ x: [0, -2, 2, -2, 2, 0] }}
               transition={{ duration: 5, repeat: Infinity }}
             >
@@ -256,7 +265,7 @@ export default function Footer() {
           </motion.div>
 
           {/* Colonne 2 - Navigation */}
-          <motion.div 
+          <motion.div
             initial={{ y: 50, opacity: 0, rotateX: 30 }}
             whileInView={{ y: 0, opacity: 1, rotateX: 0 }}
             transition={{ duration: 0.6, type: "spring", delay: 0.2 }}
@@ -264,9 +273,9 @@ export default function Footer() {
           >
             <h3 className="text-sm font-semibold mb-5 flex items-center justify-center md:justify-start gap-2">
               <Zap size={16} style={{ color: accentColor }} />
-              <span>Navigation</span>
+              <span>{t('footer.navigation')}</span>
             </h3>
-            
+
             <div className="space-y-3">
               {navItems.map((item, index) => (
                 <motion.div
@@ -276,11 +285,11 @@ export default function Footer() {
                   transition={{ delay: 0.4 + index * 0.1 }}
                   whileHover={{ x: 8 }}
                 >
-                  <Link 
-                    href={item.href} 
+                  <Link
+                    href={item.href}
                     onClick={(e) => smoothScrollTo(e, item.href)}
                     className="flex items-center gap-3 text-sm group"
-                    style={{ color: `${textColor}CC` }}
+                    style={{ color: `color-mix(in srgb, ${textColor} 80%, transparent)` }}
                   >
                     <motion.div
                       animate={{ rotate: [0, 10, -10, 0] }}
@@ -292,10 +301,10 @@ export default function Footer() {
                     <span className="group-hover:tracking-wider transition-all duration-300">
                       {item.name}
                     </span>
-                    <ChevronRight 
-                      size={12} 
-                      className="opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-1" 
-                      style={{ color: accentColor }} 
+                    <ChevronRight
+                      size={12}
+                      className="opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-1"
+                      style={{ color: accentColor }}
                     />
                   </Link>
                 </motion.div>
@@ -318,13 +327,13 @@ export default function Footer() {
                 >
                   ✦
                 </motion.span>
-                Available for freelance
+                {t('footer.freelance')}
               </span>
             </motion.div>
           </motion.div>
 
           {/* Colonne 3 - Technologies */}
-          <motion.div 
+          <motion.div
             initial={{ y: 50, opacity: 0, rotateX: -30 }}
             whileInView={{ y: 0, opacity: 1, rotateX: 0 }}
             transition={{ duration: 0.6, type: "spring", delay: 0.3 }}
@@ -332,7 +341,7 @@ export default function Footer() {
           >
             <h3 className="text-sm font-semibold mb-5 flex items-center justify-center md:justify-start gap-2">
               <Cpu size={16} style={{ color: accentColor }} />
-              <span>Tech Stack</span>
+              <span>{t('footer.techStack')}</span>
             </h3>
 
             <div className="grid grid-cols-2 gap-2">
@@ -344,29 +353,29 @@ export default function Footer() {
                   transition={{ delay: 0.5 + index * 0.08, type: "spring" }}
                   whileHover={{ scale: 1.05, y: -2 }}
                   className="flex items-center gap-2 p-2 rounded-lg text-xs"
-                  style={{ 
-                    backgroundColor: `${accentColor}08`,
-                    border: `1px solid ${accentColor}15`
+                  style={{
+                    backgroundColor: `color-mix(in srgb, ${accentColor} 3%, transparent)`,
+                    border: `1px solid color-mix(in srgb, ${accentColor} 8%, transparent)`
                   }}
                 >
                   <tech.icon size={14} style={{ color: accentColor }} />
-                  <span style={{ color: `${textColor}CC` }}>{tech.name}</span>
+                  <span style={{ color: `color-mix(in srgb, ${textColor} 80%, transparent)` }}>{tech.name}</span>
                 </motion.div>
               ))}
             </div>
 
-            <motion.div 
+            <motion.div
               className="mt-4 text-center md:text-left text-[10px]"
-              style={{ color: `${textColor}40` }}
+              style={{ color: `color-mix(in srgb, ${textColor} 25%, transparent)` }}
               animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 3, repeat: Infinity }}
             >
-              <span>+5 more technologies</span>
+              <span>{t('footer.moreTech')}</span>
             </motion.div>
           </motion.div>
 
           {/* Colonne 4 - Social & Contact */}
-          <motion.div 
+          <motion.div
             initial={{ x: 50, opacity: 0, rotateY: 45 }}
             whileInView={{ x: 0, opacity: 1, rotateY: 0 }}
             transition={{ duration: 0.6, type: "spring", delay: 0.4 }}
@@ -374,9 +383,9 @@ export default function Footer() {
           >
             <h3 className="text-sm font-semibold mb-5 flex items-center justify-center md:justify-start gap-2">
               <Globe size={16} style={{ color: accentColor }} />
-              <span>Connect</span>
+              <span>{t('footer.connect')}</span>
             </h3>
-            
+
             <div className="flex flex-wrap justify-center md:justify-start gap-3">
               {socialLinks.map((item, index) => (
                 <motion.a
@@ -386,13 +395,13 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   initial={{ scale: 0, rotateY: -180 }}
                   whileInView={{ scale: 1, rotateY: 0 }}
-                  transition={{ 
+                  transition={{
                     type: "spring",
                     stiffness: 260,
                     damping: 20,
                     delay: 0.6 + index * 0.08
                   }}
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.15,
                     y: -5,
                     rotateY: 15,
@@ -400,16 +409,16 @@ export default function Footer() {
                   whileTap={{ scale: 0.95 }}
                   className="relative group"
                 >
-                  <motion.div 
+                  <motion.div
                     className="p-2.5 rounded-lg"
-                    style={{ 
-                      backgroundColor: `${accentColor}15`,
-                      border: `1px solid ${accentColor}30`,
+                    style={{
+                      backgroundColor: `color-mix(in srgb, ${accentColor} 8%, transparent)`,
+                      border: `1px solid color-mix(in srgb, ${accentColor} 19%, transparent)`,
                     }}
-                    animate={{ 
+                    animate={{
                       boxShadow: [
                         `0 0 0px ${accentColor}`,
-                        `0 0 15px ${accentColor}30`,
+                        `0 0 15px color-mix(in srgb, ${accentColor} 19%, transparent)`,
                         `0 0 0px ${accentColor}`
                       ]
                     }}
@@ -417,8 +426,8 @@ export default function Footer() {
                   >
                     <item.Icon size={16} style={{ color: accentColor }} />
                   </motion.div>
-                  
-                  <motion.span 
+
+                  <motion.span
                     className="absolute -top-7 left-1/2 transform -translate-x-1/2 text-[8px] px-1.5 py-0.5 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity"
                     style={{ backgroundColor: accentColor, color: bgColor }}
                   >
@@ -429,22 +438,22 @@ export default function Footer() {
             </div>
 
             {/* Bouton Contact */}
-            <motion.div 
+            <motion.div
               className="mt-5"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Link 
-                href="#contact" 
+              <Link
+                href="#contact"
                 onClick={(e) => smoothScrollTo(e, "#contact")}
                 className="inline-flex items-center gap-2 px-4 py-2 text-sm rounded-lg transition-all group w-full justify-center"
-                style={{ 
+                style={{
                   backgroundColor: accentColor,
                   color: bgColor,
                 }}
               >
                 <MessageSquare size={14} />
-                <span>Send Message</span>
+                <span>{t('footer.sendMessage')}</span>
                 <motion.div
                   animate={{ x: [0, 3, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
@@ -457,9 +466,9 @@ export default function Footer() {
         </div>
 
         {/* Séparateur animé */}
-        <motion.div 
-          className="my-8 h-px bg-gradient-to-r from-transparent via-[#14B89C] to-transparent"
-          animate={{ 
+        <motion.div
+          className="my-8 h-px bg-gradient-to-r from-transparent via-[var(--accent)] to-transparent"
+          animate={{
             scaleX: [0.3, 1, 0.3],
             opacity: [0.2, 0.8, 0.2]
           }}
@@ -467,14 +476,14 @@ export default function Footer() {
         />
 
         {/* Bottom bar */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px]" style={{ color: `${textColor}50` }}>
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px]" style={{ color: `color-mix(in srgb, ${textColor} 31%, transparent)` }}>
           <motion.div
             className="flex items-center gap-2"
             animate={{ opacity: [0.6, 1, 0.6] }}
             transition={{ duration: 3, repeat: Infinity }}
           >
             <Code2 size={10} style={{ color: accentColor }} />
-            <span>© {currentYear} JOBA. All rights reserved.</span>
+            <span>© {currentYear} JOBA. {t('footer.rights')}</span>
             <motion.div
               animate={{ scale: [1, 1.3, 1] }}
               transition={{ duration: 1.5, repeat: Infinity }}
@@ -483,17 +492,17 @@ export default function Footer() {
               <Heart size={8} />
             </motion.div>
           </motion.div>
-          
+
           <div className="flex gap-4">
-            {['Privacy', 'Terms', 'Sitemap'].map((item) => (
+            {[t('footer.privacy'), t('footer.terms'), t('footer.sitemap')].map((item) => (
               <motion.div
                 key={item}
                 whileHover={{ y: -2 }}
               >
-                <Link 
-                  href={`#`} 
+                <Link
+                  href={`#`}
                   className="transition-all duration-300 hover:tracking-wider"
-                  style={{ color: `${textColor}60` }}
+                  style={{ color: `color-mix(in srgb, ${textColor} 38%, transparent)` }}
                 >
                   {item}
                 </Link>
@@ -501,7 +510,7 @@ export default function Footer() {
             ))}
           </div>
 
-          <motion.div 
+          <motion.div
             className="flex items-center gap-2"
             animate={{ rotate: [0, 5, -5, 0] }}
             transition={{ duration: 4, repeat: Infinity }}

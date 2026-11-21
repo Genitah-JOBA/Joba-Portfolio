@@ -29,9 +29,9 @@ import {
 } from "lucide-react";
 import { Project, SkillCategory, Experience } from '@/app/types';
 
-export const ACCENT_COLOR = "#6EE7B7";
-export const BG_COLOR = "#050B14";
-export const TEXT_COLOR = "#FFFFFF";
+export const ACCENT_COLOR = "var(--accent)";
+export const BG_COLOR = "var(--bg)";
+export const TEXT_COLOR = "var(--fg)";
 
 export const skillCategories: SkillCategory[] = [
   { 
@@ -62,6 +62,9 @@ export const skillCategories: SkillCategory[] = [
       { name: "Java", level: 70 },
       { name: "Spring Boot", level: 70 },
       { name: "Python", level: 85 },
+      { name: "FastAPI", level: 60 },
+      { name: "C#", level: 65 },
+      { name: "ASP.NET", level: 60 },
       { name: "API REST", level: 80 },
     ] 
   },
@@ -80,6 +83,7 @@ export const skillCategories: SkillCategory[] = [
     icon: React.createElement(Smartphone),
     skills: [
       { name: "Flutter", level: 60 },
+      { name: "Dart", level: 60 },
       { name: "React Native", level: 40 },
     ] 
   },
@@ -115,7 +119,7 @@ export const projects: Project[] = [
     title: "Parent Malagasy", 
     category: "Frontend", 
     desc: "Parent Malagasy is a web-based parental monitoring application that allows parents to manage the health, growth, and development of their children from 0 to 12 years old. It offers personalized tracking with growth charts, a vaccination schedule, a budget calculator, and age-appropriate advice.", 
-    image: "/parent.jpg", 
+    image: "/monitor.jpg", 
     tags: ["Vue.js", "Tailwind", "Framer Motion", "Chart.js", "LocalStorage", "GitHub", "Netlify"], 
     demo: "https://parentmalagasy.netlify.app" 
   },
@@ -126,13 +130,160 @@ export const projects: Project[] = [
     desc: "ExamPrep is a multi-platform mobile exam preparation application that centralizes review sheets, timed tests and progress tracking for EMIT Fianarantsoa students and teachers.", 
     image: "/elearning.jpg", 
     tags: ["Flutter", "Dart", "Supabase", "GitHub"], 
-    demo: "https://examprep-ie6gt2y9x-genitahrazafindrasoa-2926s-projects.vercel.app/" 
+    demo: "https://examprep-ie6gt2y9x-genitahrazafindrasoa-2926s-projects.vercel.app/"
+  },
+  {
+    id: 7,
+    title: "SmartCity",
+    category: "Fullstack",
+    desc: "Urban issue reporting platform built during the Fianara SmartCity hackathon (Youth Computing Fianarantsoa): citizens report problems in their city and the municipality tracks their resolution.",
+    image: "/smartcity.png",
+    tags: ["React", "Tailwind", "Spring Boot", "PostgreSQL"],
+    demo: "#"
+  },
+  {
+    id: 11,
+    title: "i-Rindra",
+    category: "Fullstack",
+    desc: "AI-assisted project management platform built during my internship at Bienfe Agency: projects and Kanban tasks, team and client management, isolated client space, notifications, AI assistant and role-based authentication.",
+    image: "/irindra.png",
+    tags: ["React", "FastAPI", "PostgreSQL", "Tailwind", "JWT", "AI"],
+    demo: "#"
+  },
+  {
+    id: 12,
+    title: "MASO",
+    category: "Fullstack",
+    desc: "Fact-checking PWA and web platform for Malagasy journalists, built at the FANILO 2026 hackathon: content analysis, verification workflow up to the editor-in-chief, signed public reports, offline mode, FR / MG / EN.",
+    image: "/maso.png",
+    tags: ["React", "TypeScript", "Supabase", "FastAPI", "PWA", "Vercel"],
+    demo: "https://42hackathon-fanilo2026-maso.vercel.app"
   }
 ];
 
 // ============ EXPÉRIENCES ============
 export const experiences: Experience[] = [
   // 2026
+  {
+    id: 12,
+    title: "MASO – Authentication & Original Source Modeling",
+    company: "Hackathon FANILO – French Embassy",
+    location: "Madagascar",
+    period: "November 2026",
+    duration: "-",
+    type: "Hackathon",
+    description: "FANILO hackathon organized by the French Embassy (42 Antananarivo). MASO is a PWA and web platform helping Malagasy journalists verify suspicious content, document their checks and publish reliable reports, even offline.",
+    technologies: ["React", "TypeScript", "Supabase", "FastAPI", "PWA", "Vercel"],
+    icon: React.createElement(Award),
+    achievements: [
+      "Working prototype deployed online, 8 modules delivered and tested",
+      "Image, link, text and video analysis with sourced clues",
+      "Journalist → fact-checker → editor-in-chief validation workflow",
+      "Offline mode and FR / MG / EN interface",
+      "Certificate of participation"
+    ]
+  },
+  {
+    id: 8,
+    title: "Final-Year Development Internship",
+    company: "Bienfe Agency",
+    location: "Antananarivo, Madagascar",
+    period: "August 2026 - November 2026",
+    duration: "4 months",
+    type: "Stage",
+    description: "Final-year internship in a digital agency: design and development of i-Rindra, an AI-assisted project management platform for the agency (projects, Kanban tasks, team, clients, isolated client space, notifications).",
+    technologies: ["React", "FastAPI", "PostgreSQL", "Tailwind CSS", "JWT", "AI"],
+    icon: React.createElement(Briefcase),
+    achievements: [
+      "Fullstack development of i-Rindra (FastAPI backend + React frontend)",
+      "Role-based authentication: admin, management, team, client",
+      "Kanban board, milestones, files, dashboard and notifications",
+      "AI assistant integrated through an LLM API",
+      "Internship certificate from Bienfe Agency"
+    ]
+  },
+  {
+    id: 14,
+    title: "Bachelor's Degree – Internet & Intranet Application Development",
+    company: "EMIT Fianarantsoa",
+    location: "Fianarantsoa, Madagascar",
+    period: "2023 - November 13, 2026",
+    duration: "3 years",
+    type: "Formation",
+    description: "Bachelor's degree (Licence) in Internet and Intranet Application Development, obtained on November 13, 2026.",
+    technologies: ["Web", "Mobile", "Databases", "Software Engineering"],
+    icon: React.createElement(GraduationCap),
+    achievements: [
+      "Licence obtained on November 13, 2026",
+      "Final-year internship at Bienfe Agency (i-Rindra)"
+    ]
+  },
+  {
+    id: 9,
+    title: "MIANARA – Web Platform for Baccalaureate Candidates",
+    company: "Science Hack Day – CIDST",
+    location: "Madagascar",
+    period: "October 2026",
+    duration: "-",
+    type: "Hackathon",
+    description: "Web application dedicated to high-school students preparing for the baccalaureate exam, built during the Science Hack Day organized by the CIDST.",
+    technologies: ["Web App", "EdTech", "Prototyping"],
+    icon: React.createElement(GraduationCap),
+    achievements: [
+      "Web platform to help baccalaureate candidates revise",
+      "Certificate of participation"
+    ]
+  },
+  {
+    id: 10,
+    title: "UrbanFlow AI",
+    company: "EMIHACK – EMIT Fianarantsoa",
+    location: "Fianarantsoa, Madagascar",
+    period: "June 2026",
+    duration: "-",
+    type: "Hackathon",
+    description: "Participation in EMIHACK, the hackathon of EMIT Fianarantsoa, with UrbanFlow AI, an AI-based smart-city project.",
+    technologies: ["AI", "Smart City", "Prototyping"],
+    icon: React.createElement(Workflow),
+    achievements: [
+      "AI-powered urban solution prototyped in a team",
+      "Certificate of participation"
+    ]
+  },
+  {
+    id: 11,
+    title: "Urban Issue Reporting Platform",
+    company: "Hackathon Fianara SmartCity – Youth Computing Fianarantsoa",
+    location: "Fianarantsoa, Madagascar",
+    period: "May 2026",
+    duration: "-",
+    type: "Hackathon",
+    description: "Platform allowing citizens to report urban problems, built during the Fianara SmartCity hackathon organized by Youth Computing Fianarantsoa.",
+    technologies: ["Spring Boot", "React", "PostgreSQL", "Tailwind CSS"],
+    icon: React.createElement(Globe),
+    achievements: [
+      "Requirements analysis",
+      "Backend (Spring Boot) and frontend (React) development",
+      "PostgreSQL database design"
+    ]
+  },
+  {
+    id: 13,
+    title: "ExamPrep – Timed Exam Preparation App",
+    company: "Academic Project – EMIT",
+    location: "Fianarantsoa, Madagascar",
+    period: "June 2026",
+    duration: "-",
+    type: "Projet",
+    description: "Multi-platform mobile application with timed tests, review sheets and progress tracking for EMIT students and teachers.",
+    technologies: ["Flutter", "Dart", "Supabase"],
+    icon: React.createElement(Smartphone),
+    achievements: [
+      "Requirements analysis and mockups",
+      "Mobile development with Flutter",
+      "Supabase database and authentication"
+    ]
+  },
   {
     id: 4,
     title: "Linux Training",
@@ -174,7 +325,7 @@ export const experiences: Experience[] = [
   {
     id: 1,
     title: "Pharmaceutical Stock & Sales Management Internship",
-    company: "University Center of Fianarantsoa",
+    company: "University Hospital Center (CHU) of Fianarantsoa",
     location: "Fianarantsoa, Madagascar",
     period: "June 16, 2025 - August 16, 2025",
     duration: "2 months",
@@ -186,6 +337,7 @@ export const experiences: Experience[] = [
       "Design and development of an intuitive user interface with Vue.js",
       "Implementation of a RESTful API with Laravel",
       "Data management with MySQL",
+      "Real-time stock tracking",
       "Performance and security optimization"
     ]
   },

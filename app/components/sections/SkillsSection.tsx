@@ -2,9 +2,11 @@
 
 import { motion } from 'framer-motion';
 import { ACCENT_COLOR, TEXT_COLOR, skillCategories } from '@/app/constants';
-import { 
-  Layout, 
-  Server, 
+import { useApp } from '@/app/providers/AppProviders';
+import type { DictKey } from '@/app/i18n/dictionary';
+import {
+  Layout,
+  Server,
   Smartphone,
   Cloud,
   Braces,
@@ -72,10 +74,11 @@ const categoryIconMap: Record<string, LucideIcon> = {
 const categoriesToShow = ['Frontend', 'Backend', 'Databases', 'Mobile', 'DevOps & Tools'];
 
 export const SkillsSection = () => {
+  const { t } = useApp();
   return (
     <section id="skills" className="py-20 px-6">
       <div className="max-w-6xl mx-auto">
-        
+
         {/* En-tête simple */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -88,22 +91,22 @@ export const SkillsSection = () => {
             whileInView={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5 }}
             className="inline-block px-6 py-2 rounded-full mb-4 border"
-            style={{ borderColor: `${ACCENT_COLOR}30` }}
+            style={{ borderColor: `color-mix(in srgb, ${ACCENT_COLOR} 19%, transparent)` }}
           >
             <span className="text-sm" style={{ color: ACCENT_COLOR }}>
-              ✦ MY KNOWLEDGE ✦
+              {t('skills.badge')}
             </span>
           </motion.div>
           <h2 className="text-5xl md:text-7xl font-bold tracking-tight">
-            Creativity & {" "}
-            <span 
-              className="text-transparent bg-clip-text" 
-              style={{ backgroundImage: `linear-gradient(135deg, ${ACCENT_COLOR}, ${ACCENT_COLOR}80)` }}
+            {t('skills.title1')}{" "}
+            <span
+              className="text-transparent bg-clip-text"
+              style={{ backgroundImage: `linear-gradient(135deg, ${ACCENT_COLOR}, color-mix(in srgb, ${ACCENT_COLOR} 50%, transparent))` }}
             >
-              knowledge
+              {t('skills.title2')}
             </span>
           </h2>
-          <p className="text-white/50 mt-4">Hierarchy of my technical expertise</p>
+          <p className="text-white/50 mt-4">{t('skills.subtitle')}</p>
         </motion.div>
 
         {/* Grille simple */}
@@ -112,7 +115,7 @@ export const SkillsSection = () => {
             .filter(cat => categoriesToShow.includes(cat.title))
             .map((category, idx) => {
               const Icon = categoryIconMap[category.title] || Layout;
-              
+
               return (
                 <motion.div
                   key={category.title}
@@ -122,17 +125,17 @@ export const SkillsSection = () => {
                   transition={{ delay: idx * 0.1 }}
                   className="rounded-xl border p-4"
                   style={{
-                    backgroundColor: `${ACCENT_COLOR}05`,
-                    borderColor: `${ACCENT_COLOR}15`,
+                    backgroundColor: `color-mix(in srgb, ${ACCENT_COLOR} 2%, transparent)`,
+                    borderColor: `color-mix(in srgb, ${ACCENT_COLOR} 8%, transparent)`,
                   }}
                 >
                   {/* Titre */}
-                  <div className="flex items-center gap-2 mb-3 pb-2 border-b" 
-                    style={{ borderColor: `${ACCENT_COLOR}10` }}
+                  <div className="flex items-center gap-2 mb-3 pb-2 border-b"
+                    style={{ borderColor: `color-mix(in srgb, ${ACCENT_COLOR} 6%, transparent)` }}
                   >
                     <Icon size={18} style={{ color: ACCENT_COLOR }} />
                     <h3 className="font-semibold text-xs" style={{ color: ACCENT_COLOR }}>
-                      {category.title}
+                      {t(`skills.cat.${category.title}` as DictKey)}
                     </h3>
                     <span className="ml-auto text-xs text-white/30">
                       {category.skills.length}
@@ -146,9 +149,9 @@ export const SkillsSection = () => {
                         key={skill.name}
                         className="px-2.5 py-1 rounded-full text-xs font-medium transition-all hover:scale-105"
                         style={{
-                          backgroundColor: `${ACCENT_COLOR}15`,
+                          backgroundColor: `color-mix(in srgb, ${ACCENT_COLOR} 8%, transparent)`,
                           color: TEXT_COLOR,
-                          border: `1px solid ${ACCENT_COLOR}10`,
+                          border: `1px solid color-mix(in srgb, ${ACCENT_COLOR} 6%, transparent)`,
                         }}
                       >
                         {skill.name}

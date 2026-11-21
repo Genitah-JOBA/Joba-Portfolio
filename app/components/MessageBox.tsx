@@ -32,10 +32,10 @@ export const MessageBox = ({
         <motion.div
           animate={{ rotate: type === 'success' ? [0, 360] : [0, 10, -10, 0] }}
           transition={{ duration: 0.5 }}
-          className={`p-2 rounded-full ${type === 'success' ? 'bg-[#6EE7B7]/20' : 'bg-red-500/20'}`}
+          className={`p-2 rounded-full ${type === 'success' ? 'bg-[var(--accent)]/20' : 'bg-red-500/20'}`}
         >
           {type === 'success' ? (
-            <svg className="w-5 h-5 text-[#6EE7B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-[var(--accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           ) : (
@@ -45,7 +45,7 @@ export const MessageBox = ({
           )}
         </motion.div>
         <div className="flex-1">
-          <h3 className={`font-semibold mb-1 ${type === 'success' ? 'text-[#6EE7B7]' : 'text-red-500'}`}>
+          <h3 className={`font-semibold mb-1 ${type === 'success' ? 'text-[var(--accent)]' : 'text-red-500'}`}>
             {type === 'success' ? 'Success!' : 'Error!'}
           </h3>
           <p className="text-sm text-white/80">{message}</p>
@@ -57,7 +57,7 @@ export const MessageBox = ({
         </button>
       </div>
       <motion.div
-        className={`absolute bottom-0 left-0 h-1 rounded-b-xl ${type === 'success' ? 'bg-[#6EE7B7]' : 'bg-red-500'}`}
+        className={`absolute bottom-0 left-0 h-1 rounded-b-xl ${type === 'success' ? 'bg-[var(--accent)]' : 'bg-red-500'}`}
         initial={{ width: '100%' }}
         animate={{ width: '0%' }}
         transition={{ duration: 5, ease: "linear" }}

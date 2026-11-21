@@ -53,12 +53,12 @@ export default function AllProject({ isOpen, onClose, projects }: AllProjectProp
             exit={{ scale: 0.8, opacity: 0, rotateY: 90 }} 
             transition={{ type: "spring", damping: 20 }} 
             className="relative max-w-6xl w-full max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl"
-            style={{ backgroundColor: BG_COLOR, border: `1px solid ${ACCENT_COLOR}30` }}
+            style={{ backgroundColor: BG_COLOR, border: `1px solid color-mix(in srgb, ${ACCENT_COLOR} 19%, transparent)` }}
           >
             <button 
               onClick={onClose} 
               className="sticky top-6 float-right z-20 p-2 rounded-full hover:bg-white/10 transition-all mr-6 mt-6"
-              style={{ backgroundColor: `${ACCENT_COLOR}20`, color: ACCENT_COLOR }}
+              style={{ backgroundColor: `color-mix(in srgb, ${ACCENT_COLOR} 13%, transparent)`, color: ACCENT_COLOR }}
             >
               <IconX size={24} />
             </button>
@@ -102,7 +102,7 @@ export default function AllProject({ isOpen, onClose, projects }: AllProjectProp
                     transition={{ delay: index * 0.1 }}
                     whileHover={{ y: -10, scale: 1.02 }}
                     className="group relative rounded-2xl overflow-hidden cursor-pointer border"
-                    style={{ background: `${TEXT_COLOR}08`, borderColor: `${ACCENT_COLOR}20` }}
+                    style={{ background: `color-mix(in srgb, ${TEXT_COLOR} 3%, transparent)`, borderColor: `color-mix(in srgb, ${ACCENT_COLOR} 13%, transparent)` }}
                   >
                     <div className="relative h-56 overflow-hidden">
                       <Image 
@@ -121,7 +121,7 @@ export default function AllProject({ isOpen, onClose, projects }: AllProjectProp
                     </div>
                     
                     <div className="p-6">
-                      <h3 className="text-xl font-bold mb-2 transition-colors group-hover:text-[#6EE7B7]">
+                      <h3 className="text-xl font-bold mb-2 transition-colors group-hover:text-[var(--accent)]">
                         {project.title}
                       </h3>
                       <p className="text-white/70 text-sm mb-4 line-clamp-2">
@@ -133,7 +133,7 @@ export default function AllProject({ isOpen, onClose, projects }: AllProjectProp
                           <span 
                             key={tag} 
                             className="text-xs px-2 py-1 rounded-full"
-                            style={{ backgroundColor: `${ACCENT_COLOR}20`, color: ACCENT_COLOR }}
+                            style={{ backgroundColor: `color-mix(in srgb, ${ACCENT_COLOR} 13%, transparent)`, color: ACCENT_COLOR }}
                           >
                             {tag}
                           </span>

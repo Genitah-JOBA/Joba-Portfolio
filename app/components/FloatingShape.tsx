@@ -7,7 +7,7 @@ export const FloatingShape = ({ delay = 0 }: { delay?: number }) => (
   <motion.div
     className="absolute w-32 h-32 rounded-full"
     style={{
-      background: `radial-gradient(circle, ${ACCENT_COLOR}20, transparent)`,
+      background: `radial-gradient(circle, color-mix(in srgb, ${ACCENT_COLOR} 13%, transparent), transparent)`,
       filter: 'blur(40px)',
     }}
     animate={{
